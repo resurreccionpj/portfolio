@@ -5,32 +5,28 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Paolo Resurreccion | Senior site reliability engineer</title>
   <meta name="description" content="Paolo Resurreccion is a senior site reliability engineer and platform engineering enthusiast. See his accessibility map, self-hosted AI stack and personal finance tracker.">
-  <meta name="theme-color" content="#176b3b">
+  <meta name="theme-color" content="#f1eee6">
   <meta property="og:title" content="Paolo Resurreccion | Senior site reliability engineer">
   <meta property="og:description" content="Platform engineering, home lab projects and accessible software.">
   <meta property="og:type" content="website">
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Fredoka:wght@500;600;700&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&family=JetBrains+Mono:wght@400;700&display=swap">
   <link rel="stylesheet" href="styles.css">
+  <script src="main.js" defer></script>
 </head>
 <body>
   <a class="skip" href="#main">Skip to content</a>
 
-  <header class="top">
-    <a class="mark" href="#top" aria-label="Paolo Resurreccion, home">
-      <svg viewBox="0 0 44 36" width="44" height="36" aria-hidden="true" focusable="false">
-        <rect x="2" y="12" width="40" height="22" rx="4" fill="#c91a09"/>
-        <rect x="8" y="4" width="10" height="9" rx="3" fill="#c91a09"/>
-        <rect x="26" y="4" width="10" height="9" rx="3" fill="#c91a09"/>
-        <rect x="2" y="28" width="40" height="6" rx="3" fill="#000" opacity=".18"/>
-      </svg>
-      <span>Paolo</span>
+  <header class="card bar" id="top">
+    <a class="logo" href="#top" aria-label="Paolo Resurreccion, home">
+      <span class="logo-key" aria-hidden="true">P</span>
+      <span>Paolo Resurreccion</span>
     </a>
     <nav aria-label="Main">
       <ul>
-        <li><a href="#about">About</a></li>
+        <li><a href="#lab">Lab</a></li>
         <li><a href="#projects">Projects</a></li>
         <li><a href="#contact">Contact</a></li>
       </ul>
@@ -38,106 +34,124 @@
   </header>
 
   <main id="main">
-    <section class="hero" id="top" aria-labelledby="hello">
+    <section class="card hero" aria-labelledby="hello">
       <div class="hero-text">
-        <h1 id="hello">
-          <span class="sr">Hi, I'm Paolo</span>
-          <span class="hi" aria-hidden="true">Hi, I'm</span>
-          <span class="tiles" aria-hidden="true">
-            <span class="tile t-red">P</span><span class="tile t-yellow">A</span><span class="tile t-blue">O</span><span class="tile t-white">L</span><span class="tile t-green">O</span>
-          </span>
-        </h1>
-        <p class="lead">Senior site reliability engineer. I keep the software that 100+ manufacturing plants rely on running, then go home and build more of it.</p>
+        <p class="mono">site reliability · platform engineering</p>
+        <h1 id="hello">Reliable at work.<br><em>Curious at home.</em></h1>
+        <p class="lead">I'm Paolo, a senior site reliability engineer at a leading global FMCG company. By day I maintain the applications and software used by more than 100 manufacturing plants around the world. After hours I run a home lab with full-stack observability and build my own projects on it.</p>
         <p class="actions">
-          <a class="btn btn-yellow" href="https://github.com/resurreccionpj" rel="me noopener">
-            <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false"><path fill="currentColor" d="M12 .5a11.5 11.5 0 0 0-3.64 22.41c.58.1.79-.25.79-.56v-2c-3.2.7-3.87-1.36-3.87-1.36-.52-1.33-1.28-1.69-1.28-1.69-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.18 1.76 1.18 1.03 1.76 2.69 1.25 3.35.96.1-.75.4-1.25.73-1.54-2.55-.29-5.24-1.28-5.24-5.69 0-1.26.45-2.28 1.18-3.09-.12-.29-.51-1.46.11-3.05 0 0 .97-.31 3.17 1.18a11 11 0 0 1 5.77 0c2.2-1.49 3.17-1.18 3.17-1.18.62 1.59.23 2.76.11 3.05.74.81 1.18 1.83 1.18 3.09 0 4.42-2.69 5.39-5.25 5.68.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.56A11.5 11.5 0 0 0 12 .5z"/></svg>
+          <a class="key key-red" href="https://github.com/resurreccionpj" rel="me noopener">
+            <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false"><path fill="currentColor" d="M12 .5a11.5 11.5 0 0 0-3.64 22.41c.58.1.79-.25.79-.56v-2c-3.2.7-3.87-1.36-3.87-1.36-.52-1.33-1.28-1.69-1.28-1.69-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.18 1.76 1.18 1.03 1.76 2.69 1.25 3.35.96.1-.75.4-1.25.73-1.54-2.55-.29-5.24-1.28-5.24-5.69 0-1.26.45-2.28 1.18-3.09-.12-.29-.51-1.46.11-3.05 0 0 .97-.31 3.17 1.18a11 11 0 0 1 5.77 0c2.2-1.49 3.17-1.18 3.17-1.18.62 1.59.23 2.76.11 3.05.74.81 1.18 1.83 1.18 3.09 0 4.42-2.69 5.39-5.25 5.68.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.56A11.5 11.5 0 0 0 12 .5z"/></svg>
             See my GitHub
           </a>
-          <a class="btn btn-white" href="https://www.linkedin.com/in/resupaolo/" rel="me noopener">
-            <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false"><path fill="currentColor" d="M20.45 20.45h-3.56v-5.57c0-1.33-.03-3.04-1.85-3.04-1.86 0-2.14 1.45-2.14 2.94v5.67H9.34V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.07 2.07 0 1 1 0-4.14 2.07 2.07 0 0 1 0 4.14zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0z"/></svg>
+          <a class="key key-white" href="https://www.linkedin.com/in/resupaolo/" rel="me noopener">
+            <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false"><path fill="currentColor" d="M20.45 20.45h-3.56v-5.57c0-1.33-.03-3.04-1.85-3.04-1.86 0-2.14 1.45-2.14 2.94v5.67H9.34V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.07 2.07 0 1 1 0-4.14 2.07 2.07 0 0 1 0 4.14zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0z"/></svg>
             Connect on LinkedIn
           </a>
         </p>
       </div>
 
-      <figure class="figure">
-        <img class="avatar" src="assets/avatar.svg" width="260" height="390" alt="Brick-style figure of Paolo: round glasses, dark tousled hair, a brown overshirt over a white tee, and a big smile.">
-        <div class="slab" aria-hidden="true"></div>
-      </figure>
+      <div class="hero-art" aria-hidden="true">
+        <svg viewBox="0 0 400 330" focusable="false">
+          <g stroke="#141414" stroke-width="3.5" stroke-linejoin="round">
+            <!-- bottom slab -->
+            <path d="M200 290l90-45v26l-90 45z" fill="#2a2a28"/>
+            <path d="M110 245l90 45v26l-90-45z" fill="#cfcabb"/>
+            <path d="M200 200l90 45-90 45-90-45z" fill="#f7f4ea"/>
+            <!-- second slab -->
+            <path d="M200 254l90-45v26l-90 45z" fill="#2a2a28"/>
+            <path d="M110 209l90 45v26l-90-45z" fill="#cfcabb"/>
+            <path d="M200 164l90 45-90 45-90-45z" fill="#f7f4ea"/>
+            <!-- third slab -->
+            <path d="M200 218l90-45v26l-90 45z" fill="#2a2a28"/>
+            <path d="M110 173l90 45v26l-90-45z" fill="#cfcabb"/>
+            <path d="M200 128l90 45-90 45-90-45z" fill="#f7f4ea"/>
+            <!-- top slab -->
+            <path d="M200 182l90-45v26l-90 45z" fill="#8f1c16"/>
+            <path d="M110 137l90 45v26l-90-45z" fill="#b82820"/>
+            <path d="M200 92l90 45-90 45-90-45z" fill="#d32a21"/>
+          </g>
+          <g stroke="#141414" stroke-width="2.5">
+            <circle cx="124" cy="270" r="4.5" fill="#5ed17a"/><circle cx="138" cy="277" r="4.5" fill="#5ed17a"/>
+            <circle cx="124" cy="234" r="4.5" fill="#5ed17a"/><circle cx="138" cy="241" r="4.5" fill="#5ed17a"/>
+            <circle cx="124" cy="198" r="4.5" fill="#ffc21a"/><circle cx="138" cy="205" r="4.5" fill="#5ed17a"/>
+            <circle cx="124" cy="162" r="4.5" fill="#5ed17a"/><circle cx="138" cy="169" r="4.5" fill="#fff"/>
+          </g>
+        </svg>
+        <p class="mono cap">home lab, stacked</p>
+      </div>
     </section>
 
-    <section class="about" id="about" aria-labelledby="about-h">
-      <div class="brick brick-white wide">
-        <h2 id="about-h">About me</h2>
-        <p>I'm Paolo, a senior site reliability engineer at a leading global FMCG company. My day job is maintaining the applications and software used by more than 100 manufacturing plants around the world.</p>
-        <p>Outside work, I keep practicing. Platform engineering is the part I love most, so I run my own lab at home with full-stack observability, and I host my projects on it.</p>
+    <section class="card term" id="lab" aria-labelledby="lab-h">
+      <div class="term-head">
+        <h2 id="lab-h">Lab status</h2>
+        <p class="mono dim">simulated output, for illustration</p>
       </div>
-      <div class="brick brick-yellow stat">
-        <p class="big">100+</p>
-        <p>manufacturing plants supported worldwide</p>
-      </div>
-      <div class="brick brick-blue stat">
-        <p class="big">Home lab</p>
-        <p>full-stack observability, running my own projects</p>
-      </div>
+      <pre id="log" role="log" aria-live="polite" aria-label="Lab status output"><span class="dim">$ press the key to check the lab</span></pre>
+      <p class="term-foot">
+        <button class="key key-red" id="run" type="button">Check the lab</button>
+        <span class="mono dim" id="state">idle</span>
+      </p>
+    </section>
+
+    <section class="stats" aria-label="At a glance">
+      <div class="card stat"><p class="big">100+</p><p>manufacturing plants rely on the software I maintain</p></div>
+      <div class="card stat"><p class="big">3</p><p>projects below, from maps to AI to money</p></div>
+      <div class="card stat"><p class="big">EN + FIL</p><p>languages in my accessibility map</p></div>
+      <div class="card stat"><p class="big">1</p><p>home lab, with full-stack observability</p></div>
     </section>
 
     <section class="projects" id="projects" aria-labelledby="projects-h">
-      <h2 id="projects-h">What I've built</h2>
+      <h2 id="projects-h">Projects</h2>
       <ul class="cards">
-        <li class="brick brick-red">
+        <li class="card proj">
+          <p class="chip chip-live"><span class="dot" aria-hidden="true"></span>Live</p>
           <h3>Barangay Real Access</h3>
           <p>An accessibility map for Brgy. Real in Calamba City, made for travelers with physical disabilities. Pins and lines show ramps, sidewalks, crossings, restrooms and entrances, each with a clear status. It works in English and Filipino, has a list view next to the map, and supports keyboards and screen readers.</p>
           <ul class="tags" aria-label="Built with">
             <li>Next.js</li><li>TypeScript</li><li>Leaflet</li><li>OpenStreetMap</li><li>Neon Postgres</li><li>Vercel</li>
           </ul>
           <p class="links">
-            <a class="btn btn-white" href="https://barangay-real-access.vercel.app" rel="noopener">Open the live map</a>
-            <a class="btn btn-yellow" href="https://github.com/resurreccionpj/digital-accesibility-map" rel="noopener">View the code</a>
+            <a class="key key-red" href="https://barangay-real-access.vercel.app" rel="noopener">Open the live map</a>
+            <a class="key key-white" href="https://github.com/resurreccionpj/digital-accesibility-map" rel="noopener">View the code</a>
           </p>
         </li>
 
-        <li class="brick brick-blue">
+        <li class="card proj">
+          <p class="chip"><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false"><path fill="currentColor" d="M4 4h16v6H4zm0 10h16v6H4zM7 6.5v1.5h2V6.5zm0 10v1.5h2v-1.5z"/></svg>Self-hosted</p>
           <h3>OpenClaw Local</h3>
           <p>A self-hosted AI assistant stack I run at home. One FastAPI hub serves chat, finance, nutrition, a calendar and a system and GPU monitor, behind Traefik with HTTPS. I tried it on a local Qwen model through llama.cpp on my RTX 4070, and it can also route to hosted models when a task needs more.</p>
           <ul class="tags" aria-label="Built with">
             <li>FastAPI</li><li>Docker Compose</li><li>Traefik</li><li>SQLite</li><li>llama.cpp</li><li>Qwen</li>
           </ul>
           <p class="links">
-            <a class="btn btn-yellow" href="https://github.com/resurreccionpj/openclaw-local" rel="noopener">View the code</a>
+            <a class="key key-white" href="https://github.com/resurreccionpj/openclaw-local" rel="noopener">View the code</a>
           </p>
         </li>
 
-        <li class="brick brick-yellow">
+        <li class="card proj">
+          <p class="chip"><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false"><path fill="currentColor" d="M17 9V7a5 5 0 0 0-10 0v2H5v13h14V9h-2zm-8-2a3 3 0 0 1 6 0v2H9V7z"/></svg>Private repository</p>
           <h3>Frostbite financial tracker</h3>
           <p>A personal finance tracker for accounts, categories, income, expenses and transfers, with a Node and SQLite backend served over hardened HTTPS. The repository is private, so there is no code link.</p>
           <ul class="tags" aria-label="Built with">
             <li>Node.js</li><li>Express</li><li>SQLite</li><li>HTTPS</li>
           </ul>
-          <p class="links">
-            <span class="badge">
-              <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false"><path fill="currentColor" d="M17 9V7a5 5 0 0 0-10 0v2H5v13h14V9h-2zm-8-2a3 3 0 0 1 6 0v2H9V7z"/></svg>
-              Private repository
-            </span>
-          </p>
         </li>
       </ul>
     </section>
 
-    <section class="contact" id="contact" aria-labelledby="contact-h">
-      <div class="brick brick-green wide">
-        <h2 id="contact-h">Say hello</h2>
-        <p>I like talking about platform engineering, reliability and accessible software. Find me on GitHub or LinkedIn.</p>
-        <p class="links">
-          <a class="btn btn-yellow" href="https://github.com/resurreccionpj" rel="me noopener">github.com/resurreccionpj</a>
-          <a class="btn btn-white" href="https://www.linkedin.com/in/resupaolo/" rel="me noopener">linkedin.com/in/resupaolo</a>
-        </p>
-      </div>
+    <section class="card contact" id="contact" aria-labelledby="contact-h">
+      <h2 id="contact-h">Say hello</h2>
+      <p>I like talking about platform engineering, reliability and accessible software. Find me on GitHub or LinkedIn.</p>
+      <p class="links">
+        <a class="key key-red" href="https://github.com/resurreccionpj" rel="me noopener">github.com/resurreccionpj</a>
+        <a class="key key-white" href="https://www.linkedin.com/in/resupaolo/" rel="me noopener">linkedin.com/in/resupaolo</a>
+      </p>
     </section>
   </main>
 
   <footer>
-    <p>&copy; 2026 Paolo Resurreccion. Independent brick-style design, not affiliated with any toy brand.</p>
+    <p class="mono">&copy; 2026 Paolo Resurreccion. The lab output above is simulated.</p>
   </footer>
 </body>
 </html>

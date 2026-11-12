@@ -1,6 +1,6 @@
-# Portfolio
+# Paolo Resurreccion
 
-Personal portfolio for Paolo Resurreccion. Plain HTML and CSS, no build step, no dependencies.
+Personal site. Plain HTML, CSS and a little JavaScript. No build step, no dependencies.
 
 ## Run locally
 
@@ -15,5 +15,5 @@ Hosted on Vercel. Every push to `main` deploys.
 ## Files
 
 - `index.html`, `styles.css`: the page
-- `assets/avatar.svg`: brick-style figure, drawn by hand
+- `main.js`: the simulated lab status output
 - `vercel.json`: security headers
