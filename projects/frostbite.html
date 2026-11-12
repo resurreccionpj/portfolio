@@ -27,7 +27,6 @@
       <ul>
         <li><a href="/#lab">Lab</a></li>
         <li><a href="/#projects">Projects</a></li>
-        <li><a href="/#builds">Builds by PJ</a></li>
         <li><a href="/#contact">Contact</a></li>
       </ul>
     </nav>
@@ -38,16 +37,45 @@
       <p class="crumb"><a href="/">Home</a> / <a href="/#projects">Projects</a> / Frostbite financial tracker</p>
       <p class="chips">
         <span class="chip"><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false"><path fill="currentColor" d="M17 9V7a5 5 0 0 0-10 0v2H5v13h14V9h-2zm-8-2a3 3 0 0 1 6 0v2H9V7z"/></svg> Private repository</span>
-        <span class="chip">Self-hosted</span>
+        <span class="chip">Not live now</span>
       </p>
       <h1 id="t">Frostbite financial tracker</h1>
-      <p class="lead">A personal finance tracker that runs on my own server. It logs income, expenses and transfers across my accounts, and keeps all the data with me.</p>
+      <p class="lead">A personal finance tracker that ran on my own server. It logged income, expenses and transfers across my accounts and kept all the data with me.</p>
+      <p class="actions">
+        <a class="key key-red" href="/demos/frostbite/">Try the demo</a>
+      </p>
       <dl class="facts">
         <div><dt>My role</dt><dd>Design, build and operate it</dd></div>
         <div><dt>Built with</dt><dd>Node.js, Express, SQLite</dd></div>
         <div><dt>Served over</dt><dd>Hardened HTTPS</dd></div>
         <div><dt>Code</dt><dd>Private, so no link</dd></div>
+        <div><dt>Where it stands</dt><dd>Offline, with a demo copy</dd></div>
       </dl>
+    </section>
+
+    <section class="dsec shots" aria-labelledby="see-h">
+      <h2 id="see-h">What it looked like</h2>
+      <p>It isn't running any more, so I rebuilt it from the front-end code with made-up sample data, and the numbers are not mine. The demo runs in your browser, and you can add, edit and delete entries to try it, but nothing is saved. <a href="/demos/frostbite/">Open the interactive demo</a>.</p>
+      <figure class="shot">
+        <img src="/assets/shots/frostbite-transactions.jpg" width="1280" height="800" loading="lazy" alt="The transactions tab: total income, total expenses and net balance cards above a list of transactions grouped by day.">
+        <figcaption><b>Transactions.</b> Totals at the top and every entry grouped by day, with category, note and account.</figcaption>
+      </figure>
+      <div class="shot-row">
+      <figure class="shot">
+        <img src="/assets/shots/frostbite-accounts.jpg" width="1280" height="800" loading="lazy" alt="The accounts tab with accounts grouped under Cash, Checking, Credit Card, Investment and Savings, each with a balance.">
+        <figcaption><b>Accounts.</b> Accounts sorted into groups, each with its balance. Click a balance to correct it.</figcaption>
+      </figure>
+      <figure class="shot">
+        <img src="/assets/shots/frostbite-cards.jpg" width="1280" height="800" loading="lazy" alt="The credit card tab listing card spending by day with a total spent figure.">
+        <figcaption><b>Credit cards.</b> Card spending on its own tab, with the total spent at the top.</figcaption>
+      </figure>
+      </div>
+      <figure class="shot">
+        <div class="phones">
+          <img src="/assets/shots/frostbite-mobile.jpg" width="780" height="1688" loading="lazy" alt="The transactions tab on a phone, with the summary cards stacked above the list.">
+        </div>
+        <figcaption><b>On a phone.</b> The same screen reflows to one column.</figcaption>
+      </figure>
     </section>
 
     <section class="dsec" aria-labelledby="feat-h">
@@ -73,7 +101,7 @@
 
     <section class="dsec" aria-labelledby="state-h">
       <h2 id="state-h">Why it stays private</h2>
-      <p>It holds my own financial data and the details of how I reach my server, so the repository is private and there is no code link or public demo.</p>
+      <p>It held my own financial data and the details of how I reached my server, so the repository is private and there is no code link. The demo uses the app's front-end code on made-up data, so no real numbers appear.</p>
     </section>
 
     <section class="dsec" aria-labelledby="next-h">

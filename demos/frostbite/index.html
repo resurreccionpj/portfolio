@@ -1,0 +1,2019 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta name="robots" content="noindex">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Financial Tracker (demo)</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0f0f0f;
+      --card: #1a1a1a;
+      --primary: #111827;
+      --accent: #6366f1;
+      --accent-light: #1e1b4b;
+      --income: #22c55e;
+      --income-bg: #052e16;
+      --expense: #ef4444;
+      --expense-bg: #2a0000;
+      --transfer: #8b5cf6;
+      --transfer-bg: #1e0c3a;
+      --text: #f1f5f9;
+      --text-muted: #94a3b8;
+      --border: #2d2d2d;
+      --radius: 12px;
+      --shadow: 0 1px 3px rgba(0,0,0,0.3), 0 4px 12px rgba(0,0,0,0.2);
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      line-height: 1.5;
+    }
+
+    /* ── Header ── */
+    header {
+      background: var(--primary);
+      color: #fff;
+      padding: 0.85rem 1.25rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    /* ── Summary Bar ── */
+    .summary-bar {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.75rem;
+      padding: 1rem;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    .summary-card {
+      background: var(--card);
+      border-radius: var(--radius);
+      padding: 0.875rem 1rem;
+      box-shadow: var(--shadow);
+      text-align: center;
+      border: 1px solid var(--border);
+    }
+    .summary-card .label {
+      font-size: 0.68rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--text-muted);
+      font-weight: 600;
+      margin-bottom: 0.2rem;
+    }
+    .summary-card .value { font-size: 1.05rem; font-weight: 700; }
+    .summary-card.income .value { color: var(--income); }
+    .summary-card.expense .value { color: var(--expense); }
+    .summary-card.net .value { color: var(--accent); }
+
+    /* ── Navigation Tabs ── */
+    nav.tabs {
+      display: flex;
+      gap: 0.2rem;
+      padding: 0 1rem;
+      max-width: 800px;
+      margin: 0 auto;
+      align-items: center;
+      border-bottom: 2px solid var(--border);
+    }
+    nav.tabs .search-icon-btn {
+      background: none;
+      border: none;
+      font-size: 1.1rem;
+      cursor: pointer;
+      padding: 0.4rem 0.5rem;
+      border-radius: 6px 6px 0 0;
+      margin-bottom: -2px;
+      transition: background 0.15s;
+      line-height: 1;
+    }
+    nav.tabs .search-icon-btn:hover { background: rgba(255,255,255,0.08); }
+    nav.tabs button {
+      background: none;
+      border: none;
+      padding: 0.55rem 0.9rem;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      cursor: pointer;
+      border-bottom: 2px solid transparent;
+      margin-bottom: -2px;
+      transition: color 0.15s, border-color 0.15s;
+      border-radius: 6px 6px 0 0;
+    }
+    nav.tabs button:hover { color: var(--text); }
+    nav.tabs button.active { color: var(--accent); border-bottom-color: var(--accent); }
+
+    /* ── Main Content ── */
+    main { max-width: 800px; margin: 0 auto; padding: 1rem; }
+    .tab-content { display: none; }
+    .tab-content.active { display: block; }
+
+    /* ── Cards ── */
+    .card {
+      background: var(--card);
+      border-radius: var(--radius);
+      padding: 1.25rem;
+      box-shadow: var(--shadow);
+      margin-bottom: 1rem;
+      border: 1px solid var(--border);
+    }
+    .card-title {
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--text-muted);
+      margin-bottom: 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .card-title .btn { font-size: 0.72rem; padding: 0.25rem 0.6rem; }
+
+    /* ── Form Grid ── */
+    .form-grid { display: grid; gap: 0.75rem; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
+    label { display: block; font-size: 0.72rem; font-weight: 600; color: var(--text-muted); margin-bottom: 0.3rem; }
+    input, select {
+      width: 100%;
+      padding: 0.55rem 0.75rem;
+      border: 1.5px solid var(--border);
+      border-radius: 8px;
+      font-size: 0.875rem;
+      font-family: inherit;
+      background: #141414;
+      color: var(--text);
+      transition: border-color 0.15s;
+      appearance: none;
+      -webkit-appearance: none;
+    }
+    input::placeholder { color: var(--text-muted); opacity: 0.7; }
+    input:focus, select:focus { outline: none; border-color: var(--accent); }
+    select {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2.5'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 0.75rem center;
+      padding-right: 2rem;
+      color: var(--text);
+    }
+    select option { background: var(--card); color: var(--text); }
+
+    /* ── Buttons ── */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.4rem;
+      padding: 0.55rem 1.1rem;
+      border-radius: 8px;
+      font-size: 0.875rem;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      transition: opacity 0.15s, transform 0.1s;
+      font-family: inherit;
+    }
+    .btn:hover { opacity: 0.88; }
+    .btn:active { transform: scale(0.97); }
+    .btn-primary { background: var(--accent); color: #fff; }
+    .btn-ghost { background: transparent; color: var(--text-muted); border: 1.5px solid var(--border); }
+    .btn-ghost:hover { background: #222; color: var(--text); }
+    .btn-danger { background: var(--expense-bg); color: var(--expense); border: 1.5px solid #5a1010; }
+    .btn-danger:hover { background: #3a0a0a; }
+    .btn-sm { padding: 0.3rem 0.65rem; font-size: 0.75rem; }
+    .btn-full { width: 100%; margin-top: 0.5rem; }
+
+    /* ── Transaction Type Pills ── */
+    .type-pills { display: flex; gap: 0.5rem; margin-bottom: 1rem; }
+    .type-pill {
+      flex: 1;
+      padding: 0.55rem;
+      border-radius: 8px;
+      border: 2px solid var(--border);
+      background: #141414;
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+      text-align: center;
+      transition: all 0.15s;
+      color: var(--text-muted);
+    }
+    .type-pill:hover { border-color: var(--text-muted); }
+    .type-pill.active.income { background: var(--income-bg); border-color: var(--income); color: var(--income); }
+    .type-pill.active.expense { background: var(--expense-bg); border-color: var(--expense); color: var(--expense); }
+    .type-pill.active.transfer { background: var(--transfer-bg); border-color: var(--transfer); color: var(--transfer); }
+
+    /* ── Day-Grouped Transaction Table ── */
+    .day-group { margin-bottom: 0.5rem; }
+
+    /* Date header row — spans full width */
+    .day-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: #161616;
+      border: 1px solid #2a2a2a;
+      border-radius: 8px;
+      padding: 0.45rem 1rem;
+      margin-bottom: 0.3rem;
+      cursor: default;
+    }
+    .day-header .day-date {
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--text);
+      letter-spacing: 0.02em;
+    }
+    .day-header .day-totals {
+      display: flex;
+      gap: 0.75rem;
+      font-size: 0.72rem;
+      font-weight: 600;
+    }
+    .day-header .day-totals .day-income  { color: var(--income); }
+    .day-header .day-totals .day-expense { color: var(--expense); }
+
+    /* Transaction table — columns: Description | Account | Amount */
+    .tx-table {
+      table-layout: fixed;
+      width: 100%;
+      overflow-x: hidden;
+      border-collapse: collapse;
+    }
+    .tx-table td:nth-child(1) { width: 26%; }   /* Category */
+    .tx-table td:nth-child(2) { width: 38%; }   /* Description */
+    .tx-table td:nth-child(3) { width: 22%; }   /* Account */
+    .tx-table td:nth-child(4) { width: 14%; }   /* Amount */
+    .tx-table th {
+      font-size: 0.65rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      color: var(--text-muted);
+      padding: 0.3rem 0.75rem;
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+    }
+    .tx-table th:last-child { text-align: right; }
+    .tx-table th:first-child { text-align: left; }
+
+    .tx-row {
+      cursor: pointer;
+      transition: background 0.12s;
+    }
+    .tx-row:hover { background: #1e1e1e; }
+    .tx-row td {
+      padding: 0.6rem 0.75rem;
+      font-size: 0.85rem;
+      border-bottom: 1px solid #1e1e1e;
+      vertical-align: middle;
+    }
+    .tx-row:last-child td { border-bottom: none; }
+    .tx-cat { font-size: 0.78rem; color: var(--text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 150px; }
+    .tx-desc { font-weight: 600; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 220px; }
+    .tx-acct { color: var(--text-muted); font-size: 0.78rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 180px; }
+    .tx-amount-cell { text-align: right; font-weight: 700; font-size: 0.875rem; white-space: nowrap; }
+    .tx-amount-cell.income  { color: var(--income); }
+    .tx-amount-cell.expense { color: var(--expense); }
+    .tx-amount-cell.transfer { color: var(--transfer); }
+
+    .empty-state { text-align: center; padding: 2.5rem 1rem; color: var(--text-muted); }
+    .empty-state .emoji { font-size: 2.5rem; margin-bottom: 0.5rem; display: block; }
+    .empty-state p { font-size: 0.875rem; }
+
+    /* ── Account Groups ── */
+    .group-header {
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      padding: 0.5rem 0.25rem 0.4rem;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 0.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .group-header .group-total { font-size: 0.85rem; font-weight: 700; color: var(--text); }
+    .group-header.cash { color: var(--income); }
+    .group-header.credit { color: #a855f7; }
+    .group-header.savings { color: var(--transfer); }
+    .group-header.investments { color: #f59e0b; }
+
+    .item-list { display: flex; flex-direction: column; gap: 0.4rem; }
+    .item-row {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.6rem 0.9rem;
+      background: var(--card);
+      border: 1.5px solid var(--border);
+      border-radius: 10px;
+      cursor: pointer;
+      transition: border-color 0.15s, background 0.15s;
+    }
+    .item-row:hover { border-color: var(--accent); background: #1f1f1f; }
+    .item-badge {
+      width: 30px; height: 30px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.68rem;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+    .item-badge.cash { background: var(--income-bg); color: var(--income); }
+    .item-badge.savings { background: var(--transfer-bg); color: var(--transfer); }
+    .item-badge.credit { background: #1e0530; color: #a855f7; }
+    .item-badge.investments { background: #1c1300; color: #f59e0b; }
+    .item-name { flex: 1; font-weight: 600; font-size: 0.85rem; }
+    .item-type { font-size: 0.68rem; color: var(--text-muted); background: #141414; padding: 0.12rem 0.45rem; border-radius: 99px; }
+    .item-balance { font-size: 0.85rem; font-weight: 700; color: var(--income); min-width: 100px; text-align: right; }
+    .item-balance.negative { color: var(--expense); }
+    .item-actions { display: flex; gap: 0.25rem; opacity: 0; transition: opacity 0.15s; }
+    .item-row:hover .item-actions { opacity: 1; }
+
+    /* ── Transaction Modal ── */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.7);
+      z-index: 200;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+    }
+    .modal-overlay.open { display: flex; }
+    .modal {
+      background: var(--card);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      width: 100%;
+      max-width: 460px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+      max-height: 90vh;
+      overflow-y: auto;
+      border: 1px solid var(--border);
+    }
+    .modal-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.25rem; }
+    .modal-header h2 { font-size: 1rem; font-weight: 700; color: var(--text); }
+    .modal-close {
+      background: #222; border: 1px solid var(--border);
+      cursor: pointer; color: var(--text-muted);
+      font-size: 1.25rem; padding: 0.25rem 0.5rem;
+      border-radius: 6px; transition: background 0.15s; line-height: 1;
+    }
+    .modal-close:hover { background: #333; color: var(--text); }
+
+    /* ── Confirm Dialog ── */
+    .confirm-box { text-align: center; }
+    .confirm-box p { margin: 0.75rem 0 1.25rem; font-size: 0.9rem; color: var(--text-muted); }
+    .confirm-actions { display: flex; gap: 0.75rem; justify-content: center; }
+
+    /* ── Account Edit Section ── */
+    .balance-override {
+      margin-top: 1rem;
+      padding-top: 1rem;
+      border-top: 1px solid var(--border);
+    }
+    .balance-override label {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      display: block;
+      margin-bottom: 0.5rem;
+    }
+    .override-row {
+      display: flex;
+      gap: 0.5rem;
+      align-items: center;
+    }
+    .override-row input {
+      flex: 1;
+      font-size: 0.9rem;
+    }
+    .computed-hint {
+      font-size: 0.68rem;
+      color: var(--text-muted);
+      margin-top: 0.3rem;
+    }
+
+    .override-hint {
+      font-size: 0.68rem;
+      color: var(--text-muted);
+      margin-top: 0.3rem;
+    }
+
+    /* ── Search Tab ── */
+    .search-bar {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 0.75rem;
+    }
+    .search-bar input {
+      flex: 1;
+      padding: 0.6rem 0.9rem;
+      border: 1.5px solid var(--border);
+      border-radius: 8px;
+      font-size: 0.875rem;
+      background: #141414;
+      color: var(--text);
+    }
+    .search-bar input:focus { outline: none; border-color: var(--accent); }
+
+    /* ── Filter Panel (Dropdown Multi-Select) ── */
+    .filter-panel {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1rem;
+      margin-bottom: 1rem;
+    }
+    .filter-dropdowns {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      margin-bottom: 0.75rem;
+    }
+    .filter-dropdown {
+      position: relative;
+      min-width: 140px;
+    }
+    .filter-dropdown-btn {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.4rem;
+      width: 100%;
+      padding: 0.45rem 0.75rem;
+      border: 1.5px solid var(--border);
+      border-radius: 8px;
+      background: #141414;
+      color: var(--text);
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+      text-align: left;
+      font-family: inherit;
+    }
+    .filter-dropdown-btn:hover { border-color: var(--accent); }
+    .filter-dropdown-btn .dd-chevron { font-size: 0.6rem; color: var(--text-muted); }
+    .filter-dropdown-btn .dd-chevron.open { transform: rotate(180deg); }
+    .filter-dropdown-panel {
+      display: none;
+      position: absolute;
+      top: calc(100% + 4px);
+      left: 0;
+      right: 0;
+      background: var(--card);
+      border: 1.5px solid var(--accent);
+      border-radius: 8px;
+      padding: 0.4rem;
+      z-index: 300;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+      min-width: 180px;
+    }
+    .filter-dropdown-panel.open { display: block; }
+    .filter-dropdown-actions {
+      display: flex;
+      gap: 0.25rem;
+      padding: 0.3rem 0.4rem 0.4rem;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 0.4rem;
+    }
+    .filter-dd-action {
+      background: none;
+      border: none;
+      font-size: 0.68rem;
+      font-weight: 700;
+      cursor: pointer;
+      padding: 0.1rem 0.3rem;
+      border-radius: 4px;
+      color: var(--accent);
+      font-family: inherit;
+    }
+    .filter-dd-action:hover { background: var(--accent-light); }
+    .filter-option {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.3rem 0.5rem;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 0.78rem;
+      color: var(--text);
+      transition: background 0.1s;
+    }
+    .filter-option:hover { background: #1f1f1f; }
+    .filter-option input[type="checkbox"] {
+      accent-color: var(--accent);
+      width: 14px;
+      height: 14px;
+      flex-shrink: 0;
+    }
+    .filter-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.25rem;
+      margin-top: 0.3rem;
+    }
+    .filter-chip {
+      background: var(--accent-light);
+      color: var(--accent);
+      border: 1px solid var(--accent);
+      border-radius: 99px;
+      padding: 0.1rem 0.45rem;
+      font-size: 0.68rem;
+      font-weight: 600;
+    }
+    .filter-daterange {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 0.75rem;
+    }
+    .filter-daterange input {
+      padding: 0.4rem 0.6rem;
+      border: 1.5px solid var(--border);
+      border-radius: 8px;
+      background: #141414;
+      color: var(--text);
+      font-size: 0.8rem;
+    }
+    .filter-daterange span { color: var(--text-muted); font-size: 0.8rem; }
+    .filter-actions {
+      display: flex;
+      gap: 0.5rem;
+      justify-content: flex-end;
+    }
+    .filter-badge {
+      background: var(--accent);
+      color: #fff;
+      border-radius: 99px;
+      padding: 0.05rem 0.35rem;
+      font-size: 0.65rem;
+      font-weight: 700;
+      margin-left: 0.25rem;
+    }
+
+    /* ── Dummy Transaction Styling ── */
+    .tx-row.tx-dummy td { opacity: 0.75; }
+    .tx-row.tx-dummy:hover td { opacity: 1; }
+    .btn-delete-dummy:hover { background: #5a1010; }
+
+    /* ── Responsive ── */
+    @media (max-width: 600px) {
+      .summary-bar { gap: 0.5rem; padding: 0.75rem; }
+      .summary-card { padding: 0.6rem 0.5rem; }
+      .summary-card .value { font-size: 0.95rem; }
+      nav.tabs { padding: 0 0.75rem; }
+      nav.tabs button { padding: 0.5rem 0.6rem; font-size: 0.8rem; }
+      .card { padding: 1rem; }
+      .form-row { grid-template-columns: 1fr; }
+      .type-pills { gap: 0.35rem; }
+      .type-pill { font-size: 0.75rem; }
+      .item-actions { opacity: 1; }
+      .tx-table { overflow-x: hidden; }
+      .tx-table td { font-size: 0.78rem !important; }
+      .tx-table td:nth-child(1) { width: 28%; }  /* Category */
+      .tx-table td:nth-child(2) { width: 40%; }  /* Description */
+      .tx-table td:nth-child(3) { width: 20%; }  /* Account */
+      .tx-table td:nth-child(4) { width: 12%; }  /* Amount */
+      .tx-acct { display: none; }
+    }
+    @media (max-width: 480px) {
+      .tx-table td:nth-child(1) { width: 30%; }   /* Category */
+      .tx-table td:nth-child(2) { width: 45%; }  /* Description */
+      .tx-table td:nth-child(3) { width: 25%; }  /* Account hidden via media query below */
+      .tx-acct { display: none; }
+      .tx-cat { display: none; }
+      .tx-table td:nth-child(3) { display: none; }
+      .tx-table td:nth-child(4) { width: 25%; }
+    }
+    @media (max-width: 400px) { .summary-bar { grid-template-columns: 1fr; } }
+
+    /* ── Floating Add Button ── */
+    #floatingAddBtn {
+      position: fixed;
+      bottom: 1.5rem;
+      right: 1.5rem;
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: var(--accent);
+      color: #fff;
+      font-size: 2rem;
+      font-weight: 400;
+      line-height: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      border: none;
+      box-shadow: 0 4px 16px rgba(99, 102, 241, 0.4);
+      z-index: 500;
+      transition: transform 0.15s, box-shadow 0.15s;
+    }
+    #floatingAddBtn:hover {
+      transform: scale(1.08);
+      box-shadow: 0 6px 20px rgba(99, 102, 241, 0.55);
+    }
+    #floatingAddBtn:active { transform: scale(0.95); }
+
+
+    /* ── Name Autocomplete ── */
+    .name-suggestions {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      background: #1a1a1a;
+      border: 1.5px solid var(--accent);
+      border-top: none;
+      border-radius: 0 0 8px 8px;
+      z-index: 400;
+      max-height: 180px;
+      overflow-y: auto;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+    }
+    .name-suggestion-item {
+      padding: 0.5rem 0.85rem;
+      font-size: 0.85rem;
+      cursor: pointer;
+      color: var(--text);
+      transition: background 0.1s;
+    }
+    .name-suggestion-item:hover { background: var(--accent-light); }
+    .name-suggestion-item mark {
+      background: transparent;
+      color: var(--accent);
+      font-weight: 700;
+    }
+    .form-grid { position: relative; }  /* For absolute positioning of suggestions */
+
+  </style>
+</head>
+<body>
+
+
+
+<!-- Summary Bar -->
+<div class="summary-bar">
+  <div class="summary-card income">
+    <div class="label">Total Income</div>
+    <div class="value" id="sumIncome">₱0.00</div>
+  </div>
+  <div class="summary-card expense">
+    <div class="label">Total Expenses</div>
+    <div class="value" id="sumExpense">₱0.00</div>
+  </div>
+  <div class="summary-card net">
+    <div class="label">Net Balance</div>
+    <div class="value" id="sumNet">₱0.00</div>
+  </div>
+</div>
+
+<!-- Tabs -->
+<nav class="tabs">
+  <button class="search-icon-btn" onclick="openSearch()" title="Search">🔍</button>
+  <button class="active" onclick="switchTab('tx')">Transactions</button>
+  <button onclick="switchTab('accounts')">Accounts</button>
+  <button onclick="switchTab('cc')">💳 Credit Card</button>
+</nav>
+
+<main>
+  <!-- ── Transactions Tab ── -->
+  <div id="tab-tx" class="tab-content active">
+    <!-- Transaction List (day-grouped table) -->
+    <div id="txList"></div>
+  </div>
+
+
+  <!-- ── Credit Card Tab ── -->
+  <div id="tab-cc" class="tab-content">
+    <div class="card" style="margin-bottom:0.75rem">
+      <div class="card-title">
+        <span>💳 Credit Card Transactions</span>
+        <span id="ccBalance" style="font-size:0.85rem;color:var(--text-muted)"></span>
+      </div>
+    </div>
+    <div id="ccList"></div>
+  </div>
+
+  <!-- ── Accounts Tab ── -->
+  <div id="tab-accounts" class="tab-content">
+    <div class="card">
+      <div class="card-title">
+        <span>All Accounts</span>
+        <button class="btn btn-ghost btn-sm" onclick="openGroupModal()">+ Group</button>
+        <button class="btn btn-primary btn-sm" onclick="openAccountModal()">+ Add Account</button>
+      </div>
+      <div id="accountsList"></div>
+    </div>
+  </div>
+
+  <!-- ── Search Tab ── -->
+  <div id="tab-search" class="tab-content">
+    <div class="search-bar">
+      <input id="search-input" type="text" placeholder="Search transactions by description..." />
+      <button id="filter-btn" class="btn btn-ghost" onclick="toggleFilterPanel()">Filter <span id="filter-count" style="display:none" class="filter-badge">0</span></button>
+    </div>
+
+    <!-- Filter Panel (Dropdown Multi-Select) -->
+    <div id="filterPanel" class="filter-panel" style="display:none">
+      <div class="filter-dropdowns">
+        <!-- Type Dropdown -->
+        <div class="filter-dropdown" id="dd-type">
+          <button class="filter-dropdown-btn" onclick="toggleDropdown('type')">
+            <span id="dd-type-label">Type</span>
+            <span class="dd-chevron">▾</span>
+          </button>
+          <div class="filter-dropdown-panel" id="panel-type">
+            <div class="filter-dropdown-actions">
+              <button class="filter-dd-action" onclick="selectAllDropdown('type')">Select All</button>
+              <button class="filter-dd-action" onclick="clearDropdown('type')">Clear</button>
+            </div>
+            <div class="filter-options-list">
+              <div class="filter-option" onclick="toggleOption('type','Income')"><input type="checkbox" checked /> Income</div>
+              <div class="filter-option" onclick="toggleOption('type','Expense')"><input type="checkbox" checked /> Expense</div>
+              <div class="filter-option" onclick="toggleOption('type','Transfer')"><input type="checkbox" checked /> Transfer</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Accounts Dropdown -->
+        <div class="filter-dropdown" id="dd-accounts">
+          <button class="filter-dropdown-btn" onclick="toggleDropdown('accounts')">
+            <span id="dd-accounts-label">Accounts</span>
+            <span class="dd-chevron">▾</span>
+          </button>
+          <div class="filter-dropdown-panel" id="panel-accounts">
+            <div class="filter-dropdown-actions">
+              <button class="filter-dd-action" onclick="selectAllDropdown('accounts')">Select All</button>
+              <button class="filter-dd-action" onclick="clearDropdown('accounts')">Clear</button>
+            </div>
+            <div class="filter-options-list" id="dd-accounts-options"></div>
+          </div>
+        </div>
+
+        <!-- Category Dropdown -->
+        <div class="filter-dropdown" id="dd-category">
+          <button class="filter-dropdown-btn" onclick="toggleDropdown('category')">
+            <span id="dd-category-label">Category</span>
+            <span class="dd-chevron">▾</span>
+          </button>
+          <div class="filter-dropdown-panel" id="panel-category">
+            <div class="filter-dropdown-actions">
+              <button class="filter-dd-action" onclick="selectAllDropdown('category')">Select All</button>
+              <button class="filter-dd-action" onclick="clearDropdown('category')">Clear</button>
+            </div>
+            <div class="filter-options-list" id="dd-category-options"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="filter-daterange">
+        <label style="font-size:0.72rem;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.06em;margin:0">Date Range</label>
+        <input type="date" id="filterDateFrom" />
+        <span>to</span>
+        <input type="date" id="filterDateTo" />
+      </div>
+
+      <div class="filter-actions">
+        <button class="btn btn-ghost" onclick="clearAllFilters()">Clear All</button>
+        <button class="btn btn-primary" onclick="applyFilters()">Apply</button>
+      </div>
+    </div>
+
+    <!-- Search Results -->
+    <div id="search-results"></div>
+  </div><div id="categoriesList"></div>
+    </div>
+  </div>
+</main>
+
+<!-- Transaction Modal -->
+<div class="modal-overlay" id="txModalOverlay" onclick="closeTxModalOnOverlay(event)">
+  <div class="modal">
+    <div class="modal-header">
+      <h2 id="txModalTitle">Add Transaction</h2>
+      <button class="modal-close" onclick="closeTransactionModal()">×</button>
+    </div>
+
+    <div class="type-pills" id="txTypePills">
+      <button class="type-pill income active" data-type="Income" onclick="setModalTxType('Income')">Income</button>
+      <button class="type-pill expense" data-type="Expense" onclick="setModalTxType('Expense')">Expense</button>
+      <button class="type-pill transfer" data-type="Transfer" onclick="setModalTxType('Transfer')">Transfer</button>
+    </div>
+
+    <div class="form-grid">
+      <div class="form-row">
+        <div>
+          <label for="mTxAmount">Amount</label>
+          <input type="number" id="mTxAmount" min="0.01" step="0.01" placeholder="0.00" />
+        </div>
+        <div>
+          <label for="mTxDate">Date</label>
+          <input type="date" id="mTxDate" />
+        </div>
+      </div>
+
+      <div id="mRowSingleAccount">
+        <label for="mTxAccount">Account</label>
+        <select id="mTxAccount"></select>
+      </div>
+
+      <div id="mRowFromAccount" style="display:none">
+        <label for="mTxFrom">From Account</label>
+        <select id="mTxFrom"></select>
+      </div>
+      <div id="mRowToAccount" style="display:none">
+        <label for="mTxTo">To Account</label>
+        <select id="mTxTo"></select>
+      </div>
+
+      <div id="mRowCategory">
+        <label for="mTxCategory">Category</label>
+        <select id="mTxCategory"></select>
+      </div>
+
+      <div>
+        <label for="mTxDesc">Name <span style="font-weight:400;color:#ef4444">*</span></label>
+        <input type="text" id="mTxDesc" placeholder="e.g. Coffee, Salary..." required autocomplete="off" />
+        <div id="nameSuggestions" class="name-suggestions" style="display:none"></div>
+      </div>
+
+      <!-- Delete button (shown when editing non-dummy) -->
+      <div id="txDeleteSection" style="display:none;">
+        <button class="btn btn-danger btn-full" onclick="confirmDeleteCurrentTransaction()">Delete Transaction</button>
+      </div>
+      <!-- Delete button for dummy transactions (more prominent) -->
+
+      <div style="display:flex;gap:0.75rem;">
+        <button class="btn btn-ghost" style="flex:1" onclick="closeTransactionModal()">Cancel</button>
+        <button class="btn btn-primary" style="flex:1" onclick="submitTransactionFromModal()">Save</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Account Modal -->
+<div class="modal-overlay" id="accountModalOverlay" onclick="closeAccountModalOnOverlay(event)">
+  <div class="modal">
+    <div class="modal-header">
+      <h2 id="accountModalTitle">Add Account</h2>
+      <button class="modal-close" onclick="closeAccountModal()">×</button>
+    </div>
+    <div class="form-grid">
+      <div>
+        <label for="mAcName">Account Name</label>
+        <input type="text" id="mAcName" placeholder="e.g. BDO Savings" />
+      </div>
+      <div>
+        <label for="mAcType">Type</label>
+        <select id="mAcType">
+          <option value="Cash">Cash</option>
+          <option value="Savings">Savings</option>
+          <option value="Credit Card">Credit Card</option>
+          <option value="Investments">Investments</option>
+        </select>
+      </div>
+      <div>
+        <label for="mAcGroup">Group</label>
+        <select id="mAcGroup">
+          <option value="">— None —</option>
+        </select>
+      </div>
+      <div>
+        <label for="mAcIcon">Icon (emoji)</label>
+        <input type="text" id="mAcIcon" placeholder="💵" maxlength="4" />
+      </div>
+      <div id="accountOverrideSection" style="display:none" class="balance-override">
+        <label>Override Computed Balance</label>
+        <div class="override-row">
+          <input type="number" id="mAcBalance" step="0.01" placeholder="Enter balance" />
+          <button class="btn btn-primary btn-sm" onclick="applyBalanceOverride()">Apply</button>
+        </div>
+        <div class="computed-hint" id="computedHint"></div>
+      </div>
+      <div style="display:flex;gap:0.75rem; margin-top: 0.5rem;">
+        <button class="btn btn-ghost" style="flex:1" onclick="closeAccountModal()">Cancel</button>
+        <button class="btn btn-primary" style="flex:1" onclick="submitAccountFromModal()">Save</button>
+      </div>
+      <div id="deleteAccountBtn" style="display:none; margin-top: 0.5rem;">
+        <button class="btn btn-danger btn-full" onclick="confirmDeleteAccount()">Delete Account</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Category Modal -->
+<div class="modal-overlay" id="categoryModalOverlay" onclick="closeCategoryModalOnOverlay(event)">
+  <div class="modal">
+    <div class="modal-header">
+      <h2 id="categoryModalTitle">Add Category</h2>
+      <button class="modal-close" onclick="closeCategoryModal()">×</button>
+    </div>
+    <div class="form-grid">
+      <div>
+        <label for="mCatName">Category Name</label>
+        <input type="text" id="mCatName" placeholder="e.g. Groceries" />
+      </div>
+      <div>
+        <label for="mCatType">Type</label>
+        <select id="mCatType">
+          <option value="Income">Income</option>
+          <option value="Expense">Expense</option>
+        </select>
+      </div>
+      <div>
+        <label for="mCatIcon">Icon (emoji)</label>
+        <input type="text" id="mCatIcon" placeholder="🍔" maxlength="4" />
+      </div>
+      <div style="display:flex;gap:0.75rem; margin-top: 0.5rem;">
+        <button class="btn btn-ghost" style="flex:1" onclick="closeCategoryModal()">Cancel</button>
+        <button class="btn btn-primary" style="flex:1" onclick="submitCategoryFromModal()">Save</button>
+      </div>
+      <div id="deleteCategoryBtn" style="display:none; margin-top: 0.5rem;">
+        <button class="btn btn-danger btn-full" onclick="confirmDeleteCategory()">Delete Category</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Group Modal -->
+<div class="modal-overlay" id="groupModalOverlay" onclick="closeGroupModalOnOverlay(event)">
+  <div class="modal" style="max-width:380px">
+    <div class="modal-header">
+      <h2 id="groupModalTitle">Manage Groups</h2>
+      <button class="modal-close" onclick="closeGroupModal()">×</button>
+    </div>
+    <div class="form-grid">
+      <div>
+        <label for="mGroupName">New Group Name</label>
+        <input type="text" id="mGroupName" placeholder="e.g. Checking, Savings..." />
+      </div>
+      <div style="display:flex;gap:0.5rem">
+        <button class="btn btn-primary" style="flex:1" onclick="submitGroupFromModal()">Add Group</button>
+        <button class="btn btn-ghost" style="flex:1" onclick="closeGroupModal()">Done</button>
+      </div>
+      <div id="groupsList" style="margin-top:0.75rem;max-height:200px;overflow-y:auto"></div>
+    </div>
+  </div>
+</div>
+
+<!-- Generic Modal (confirm dialog) -->
+<div class="modal-overlay" id="modalOverlay" onclick="closeModalOnOverlay(event)">
+  <div class="modal" id="modalBody"></div>
+</div>
+
+<script src="mock-api.js"></script>
+<script>
+  /* ── API Configuration ── */
+  const API_BASE = '/api';
+
+  /* ── State ── */
+  const state = {
+    accounts: [],
+    categories: [],
+    transactions: [],
+    modalTxType: 'Income',
+    editingAccountId: null,
+    editingCategoryId: null,
+    editingTransactionId: null,
+    allNames: []  // for autocomplete
+  };
+
+  /* ── API Helpers ── */
+  async function apiGet(path) {
+    const res = await fetch(API_BASE + path);
+    if (!res.ok) throw new Error(await res.text());
+    return res.json();
+  }
+
+  async function apiPost(path, body) {
+    const res = await fetch(API_BASE + path, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body)
+    });
+    if (!res.ok) throw new Error(await res.text());
+    return res.json();
+  }
+
+  async function apiPut(path, body) {
+    const res = await fetch(API_BASE + path, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body)
+    });
+    if (!res.ok) throw new Error(await res.text());
+    return res.json();
+  }
+
+  async function apiDelete(path) {
+    const res = await fetch(API_BASE + path, { method: 'DELETE' });
+    if (!res.ok) throw new Error(await res.text());
+    return res.json();
+  }
+
+  /* ── Init ── */
+  async function init() {
+    try {
+      await loadAll();
+      renderAll();
+    } catch (err) {
+      console.error('Failed to load data:', err);
+      document.body.innerHTML = '<div style="text-align:center;padding:3rem;color:#ef4444;"><h2>Failed to connect to API</h2><p>Make sure the server is running: <code>npm start</code></p></div>';
+    }
+  }
+
+  async function loadAll() {
+    const [accounts, categories, transactions] = await Promise.all([
+      apiGet('/accounts'),
+      apiGet('/categories'),
+      apiGet('/transactions')
+    ]);
+    state.accounts = accounts;
+    state.categories = categories;
+    state.transactions = transactions;
+    // Build distinct name list for autocomplete
+    const nameSet = new Set();
+    transactions.forEach(tx => { if (tx.description) nameSet.add(tx.description); });
+    state.allNames = [...nameSet].sort();
+    loadGroups();
+    populateGroupDropdown();
+  }
+
+  /* ── Helpers ── */
+  function fmt(n) {
+    return '₱' + Math.abs(n).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  }
+
+  function fmtDate(ds) {
+    const d = new Date(ds + 'T00:00:00');
+    return d.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' });
+  }
+
+  function acTypeClass(t) {
+    const map = { 'Cash': 'cash', 'Savings': 'savings', 'Credit Card': 'credit', 'Investments': 'investments' };
+    return map[t] || 'cash';
+  }
+
+  function escapeHtml(str) {
+    const d = document.createElement('div');
+    d.textContent = str || '';
+    return d.innerHTML;
+  }
+
+  /* ── Render All ── */
+  function renderAll() {
+    renderAccountsGrouped();
+    renderTransactions();
+    populateSelects();
+    updateSummary();
+  }
+
+  /* ── Summary ── */
+  function updateSummary() {
+    const income = state.transactions
+      .filter(tx => tx.type === 'Income' && !tx.is_offset)
+      .reduce((sum, tx) => sum + tx.amount, 0);
+    const expense = state.transactions
+      .filter(tx => tx.type === 'Expense' && !tx.is_offset)
+      .reduce((sum, tx) => sum + tx.amount, 0);
+
+    document.getElementById('sumIncome').textContent = fmt(income);
+    document.getElementById('sumExpense').textContent = fmt(expense);
+    const net = income - expense;
+    const el = document.getElementById('sumNet');
+    el.textContent = (net < 0 ? '-' : '') + fmt(net);
+    el.style.color = net < 0 ? 'var(--expense)' : 'var(--accent)';
+  }
+
+  /* ── Tabs ── */
+  let searchInputReady = false;
+  function openSearch() { switchTab('search'); }
+  function switchTab(name) {
+    document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+    document.querySelectorAll('nav.tabs button').forEach(b => b.classList.remove('active'));
+    document.getElementById('tab-' + name).classList.add('active');
+    document.querySelector(`nav.tabs button[onclick*="${name}"]`).classList.add('active');
+    if (name === 'search') {
+      populateFilterOptions();
+      if (!searchInputReady) {
+        document.getElementById('search-input').addEventListener('keyup', runSearch);
+        searchInputReady = true;
+      }
+      doSearch();
+    }
+    if (name === 'cc') { renderCCList(); }
+  }
+
+  /* ── Populate Selects ── */
+  function populateSelects() {
+    const accounts = state.accounts.map(a => ({ id: a.id, name: a.name }));
+
+    ['mTxAccount', 'mTxFrom', 'mTxTo'].forEach(id => {
+      const el = document.getElementById(id);
+      if (!el) return;
+      el.innerHTML = '<option value="">-- Select --</option>' +
+        accounts.map(a => `<option value="${a.id}">${escapeHtml(a.name)}</option>`).join('');
+    });
+
+    populateModalCategorySelect(state.modalTxType);
+  }
+
+  function populateModalCategorySelect(type) {
+    const el = document.getElementById('mTxCategory');
+    if (!el) return;
+    const cats = state.categories.filter(c => c.type === type && !c.is_offset);
+    el.innerHTML = '<option value="">-- Select Category --</option>' +
+      cats.map(c => `<option value="${c.id}">${c.icon || ''} ${escapeHtml(c.name)}</option>`).join('');
+  }
+
+  /* ── Accounts (Grouped) ── */
+  function renderAccountsGrouped() {
+    const el = document.getElementById('accountsList');
+    const groupMap = {};
+    state.accounts.forEach(a => {
+      const g = a.account_group || a.type;
+      if (!groupMap[g]) groupMap[g] = [];
+      groupMap[g].push(a);
+    });
+    const groupColors = {
+      'Cash':'cash','Credit Card':'credit','Savings':'savings','Investments':'investments',
+      'Checking':'cash','Investment':'investments'
+    };
+    let html = '';
+    Object.keys(groupMap).sort().forEach(groupName => {
+      const accts = groupMap[groupName];
+      const total = accts.reduce((sum, a) => sum + (a.balance || 0), 0);
+      const gCls = groupColors[groupName] || 'cash';
+      html += `<div class="group-header ${gCls}"><span>${escapeHtml(groupName)}</span><span class="group-total">${fmt(total)}</span></div>`;
+      html += '<div class="item-list">';
+      accts.forEach(a => {
+        const balance = a.balance || 0;
+        const isNeg = balance < 0;
+        html += `<div class="item-row" onclick="openAccountModal(${a.id})"><div class="item-badge ${acTypeClass(a.type)}">${a.icon||a.name.charAt(0).toUpperCase()}</div><span class="item-name">${escapeHtml(a.name)}</span><span class="item-type">${escapeHtml(a.account_group||a.type)}</span><span class="item-balance ${isNeg?'negative':''}">${fmt(balance)}</span></div>`;
+      });
+      html += '</div>';
+    });
+    if (!html) { el.innerHTML = '<div class="empty-state"><span class="emoji">🏦</span><p>No accounts yet.</p></div>'; return; }
+    el.innerHTML = html;
+  }
+
+  /* ── Categories ── */
+  function renderCategories() {
+    const el = document.getElementById('categoriesList');
+    const incomeCats = state.categories.filter(c => c.type === 'Income');
+    const expenseCats = state.categories.filter(c => c.type === 'Expense');
+
+    let html = '<div class="group-header cash">Income</div>';
+    html += '<div class="item-list">';
+    incomeCats.forEach(c => {
+      html += `<div class="item-row" onclick="openCategoryModal(${c.id})">
+        <span style="font-size:1.2rem">${c.icon || ''}</span>
+        <span class="item-name">${escapeHtml(c.name)}</span>
+        <div class="item-actions" onclick="event.stopPropagation()">
+          <button class="btn btn-sm btn-ghost" onclick="openCategoryModal(${c.id})">Edit</button>
+        </div>
+      </div>`;
+    });
+    html += '</div>';
+
+    html += '<div class="group-header credit" style="margin-top:1rem;">Expense</div>';
+    html += '<div class="item-list">';
+    expenseCats.forEach(c => {
+      html += `<div class="item-row" onclick="openCategoryModal(${c.id})">
+        <span style="font-size:1.2rem">${c.icon || ''}</span>
+        <span class="item-name">${escapeHtml(c.name)}${c.is_offset ? ' <span style="font-size:0.65rem;opacity:0.6">(system)</span>' : ''}</span>
+        <div class="item-actions" onclick="event.stopPropagation()">
+          <button class="btn btn-sm btn-ghost" onclick="openCategoryModal(${c.id})">Edit</button>
+        </div>
+      </div>`;
+    });
+    html += '</div>';
+
+    el.innerHTML = html;
+  }
+
+  /* ── Transactions — Day-Grouped Table ── */
+  /* ── Credit Card Transactions ── */
+  function renderCCList() {
+    const el = document.getElementById('ccList');
+    const ccAccounts = state.accounts.filter(a => a.account_group === 'Credit Card').map(a => a.id);
+
+    let txs = state.transactions.filter(tx => {
+      if (tx.is_offset) return false;
+      if (tx.type === 'Transfer') {
+        return ccAccounts.includes(tx.from_account_id) || ccAccounts.includes(tx.to_account_id);
+      }
+      return ccAccounts.includes(tx.account_id);
+    });
+
+    txs.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+    const totalSpend = txs.filter(tx => tx.type === 'Expense').reduce((s, tx) => s + tx.amount, 0);
+    const balanceEl = document.getElementById('ccBalance');
+    if (balanceEl) balanceEl.textContent = 'Total spent: ' + fmt(totalSpend);
+
+    if (!txs.length) {
+      el.innerHTML = '<div class="empty-state"><span class="emoji">💳</span><p>No credit card transactions yet.</p></div>';
+      return;
+    }
+
+    const groups = {};
+    txs.forEach(tx => {
+      const ds = tx.date;
+      if (!groups[ds]) groups[ds] = { txs: [], income: 0, expense: 0 };
+      groups[ds].txs.push(tx);
+      if (tx.type === 'Income')  groups[ds].income  += tx.amount;
+      if (tx.type === 'Expense') groups[ds].expense += tx.amount;
+    });
+
+    const sortedDates = Object.keys(groups).sort((a, b) => new Date(b) - new Date(a));
+    let html = '';
+
+    sortedDates.forEach(ds => {
+      const group = groups[ds];
+      html += '<div class="day-header"><span class="day-date">' + fmtDate(ds) + '</span><span class="day-totals">' +
+        (group.income  > 0 ? '<span class="day-income">+' + fmt(group.income) + '</span>' : '') +
+        (group.expense > 0 ? '<span class="day-expense">-' + fmt(group.expense) + '</span>' : '') +
+        '</span></div>';
+      html += '<table class="tx-table"><tbody>';
+      group.txs.forEach(tx => {
+        let accountLabel = '';
+        if (tx.type === 'Transfer') {
+          accountLabel = (tx.from_account_name || '?') + ' \u2192 ' + (tx.to_account_name || '?');
+        } else {
+          accountLabel = tx.account_name || '?';
+        }
+        const cls = tx.type.toLowerCase();
+        const dummyBadge = tx.is_dummy ? '[DUMMY] ' : '';
+        let catLabel = '';
+        if (tx.type === 'Transfer') {
+          catLabel = (tx.from_account_name || '?') + ' \u2192 ' + (tx.to_account_name || '?');
+        } else {
+          catLabel = (tx.category_icon || '') + ' ' + (tx.category_name || '—');
+        }
+        html += '<tr class="tx-row" onclick="openTransactionModal(' + tx.id + ')">' +
+          '<td class="tx-cat">' + escapeHtml(catLabel) + '</td>' +
+          '<td class="tx-desc">' + escapeHtml(tx.description || tx.type) + dummyBadge + '</td>' +
+          '<td class="tx-acct">' + escapeHtml(accountLabel) + '</td>' +
+          '<td class="tx-amount-cell ' + cls + '">' + fmt(tx.amount) + '</td></tr>';
+      });
+      html += '</tbody></table>';
+    });
+
+    el.innerHTML = html;
+  }
+
+  function renderTransactions() {
+    const el = document.getElementById('txList');
+
+    // Filter out offset transactions for display
+    let txs = state.transactions.filter(tx => !tx.is_offset);
+    txs.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+    if (!txs.length) {
+      el.innerHTML = '<div class="empty-state"><span class="emoji">📋</span><p>No transactions yet.<br>Tap + Transaction in the header to add one.</p></div>';
+      return;
+    }
+
+    // Group by date (YYYY-MM-DD), newest first
+    const groups = {};
+    txs.forEach(tx => {
+      const ds = tx.date;
+      if (!groups[ds]) groups[ds] = { txs: [], income: 0, expense: 0 };
+      groups[ds].txs.push(tx);
+      if (tx.type === 'Income')  groups[ds].income  += tx.amount;
+      if (tx.type === 'Expense') groups[ds].expense += tx.amount;
+    });
+
+    const sortedDates = Object.keys(groups).sort((a, b) => new Date(b) - new Date(a));
+    let html = '';
+
+    sortedDates.forEach(ds => {
+      const group = groups[ds];
+      const dayIncome  = group.income;
+      const dayExpense = group.expense;
+
+      // Day header
+      html += `<div class="day-header">
+        <span class="day-date">${fmtDate(ds)}</span>
+        <span class="day-totals">
+          ${dayIncome  > 0 ? `<span class="day-income">+${fmt(dayIncome)}</span>` : ''}
+          ${dayExpense > 0 ? `<span class="day-expense">-${fmt(dayExpense)}</span>` : ''}
+        </span>
+      </div>`;
+
+      // Transaction table
+      html += `<table class="tx-table"><tbody>`;
+      group.txs.forEach(tx => {
+        let accountLabel = '';
+        if (tx.type === 'Transfer') {
+          accountLabel = (tx.from_account_name || '?') + ' \u2192 ' + (tx.to_account_name || '?');
+        } else {
+          accountLabel = tx.account_name || '?';
+        }
+        const cls = tx.type.toLowerCase();
+        const dummyBadge = tx.is_dummy ? '[DUMMY] ' : '';
+        const dummyClass = '';
+        let catLabel = '';
+        if (tx.type === 'Transfer') {
+          catLabel = (tx.from_account_name || '?') + ' \u2192 ' + (tx.to_account_name || '?');
+        } else {
+          catLabel = (tx.category_icon || '') + ' ' + (tx.category_name || '—');
+        }
+        html += `<tr class="tx-row" onclick="openTransactionModal(${tx.id})">
+          <td class="tx-cat">${escapeHtml(catLabel)}</td>
+          <td class="tx-desc">${escapeHtml(tx.description || tx.type)}${dummyBadge}</td>
+          <td class="tx-acct">${escapeHtml(accountLabel)}</td>
+          <td class="tx-amount-cell ${cls}">${fmt(tx.amount)}</td>
+        </tr>`;
+      });
+      html += `</tbody></table>`;
+    });
+
+    el.innerHTML = html;
+  }
+
+  /* ── Transaction Modal — Open (Add or Edit) ── */
+  function openTransactionModal(txId = null) {
+    state.modalTxType = 'Income';
+    setModalTxType('Income');
+
+    const modalTitle    = document.getElementById('txModalTitle');
+    const deleteSection = document.getElementById('txDeleteSection');
+
+    if (txId) {
+      const tx = state.transactions.find(t => t.id === txId);
+      if (!tx) return;
+      modalTitle.textContent = 'Edit Transaction';
+      state.modalTxType = tx.type;
+      setModalTxType(tx.type);
+      document.getElementById('mTxAmount').value = tx.amount;
+      document.getElementById('mTxDate').value   = tx.date;
+      document.getElementById('mTxDesc').value   = tx.description || '';
+      if (tx.type === 'Transfer') {
+        document.getElementById('mTxFrom').value = tx.from_account_id || '';
+        document.getElementById('mTxTo').value   = tx.to_account_id   || '';
+      } else {
+        document.getElementById('mTxAccount').value  = tx.account_id   || '';
+        document.getElementById('mTxCategory').value = tx.category_id || '';
+      }
+      state.editingTransactionId = txId;
+      deleteSection.style.display = tx.is_offset ? 'none' : 'block';
+    } else {
+      modalTitle.textContent = 'Add Transaction';
+      document.getElementById('mTxAmount').value = '';
+      document.getElementById('mTxDate').value   = new Date().toISOString().split('T')[0];
+      document.getElementById('mTxDesc').value   = '';
+      state.editingTransactionId = null;
+      deleteSection.style.display = 'none';
+    }
+
+    document.getElementById('txModalOverlay').classList.add('open');
+  }
+
+  function closeTransactionModal() {
+    document.getElementById('txModalOverlay').classList.remove('open');
+    state.editingTransactionId = null;
+  }
+
+  function closeTxModalOnOverlay(e) {
+    if (e.target === document.getElementById('txModalOverlay')) closeTransactionModal();
+  }
+
+  function setModalTxType(t) {
+    state.modalTxType = t;
+    document.querySelectorAll('#txTypePills .type-pill').forEach(p => p.classList.remove('active'));
+    document.querySelector('#txTypePills .type-pill[data-type="' + t + '"]').classList.add('active');
+
+    document.getElementById('mRowSingleAccount').style.display = t === 'Transfer' ? 'none' : 'block';
+    document.getElementById('mRowFromAccount').style.display   = t === 'Transfer' ? 'block' : 'none';
+    document.getElementById('mRowToAccount').style.display     = t === 'Transfer' ? 'block' : 'none';
+    document.getElementById('mRowCategory').style.display     = t === 'Transfer' ? 'none' : 'block';
+
+    populateModalCategorySelect(t);
+  }
+
+  async function submitTransactionFromModal() {
+    const type   = state.modalTxType;
+    const amount  = parseFloat(document.getElementById('mTxAmount').value);
+    const date   = document.getElementById('mTxDate').value;
+    const desc    = document.getElementById('mTxDesc').value.trim();
+
+    if (!amount || amount <= 0) { alert('Enter a valid amount.'); return; }
+    if (!date)                  { alert('Select a date.');        return; }
+    if (!desc)                  { alert('Name is required.'); return; }
+
+    let payload = { type, amount, date, description: desc };
+
+    if (type === 'Transfer') {
+      payload.from_account_id = parseInt(document.getElementById('mTxFrom').value) || null;
+      payload.to_account_id   = parseInt(document.getElementById('mTxTo').value)   || null;
+      if (!payload.from_account_id || !payload.to_account_id) { alert('Select both From and To accounts.'); return; }
+      if (payload.from_account_id === payload.to_account_id)  { alert('From and To must be different.');    return; }
+    } else {
+      payload.account_id  = parseInt(document.getElementById('mTxAccount').value)  || null;
+      payload.category_id = parseInt(document.getElementById('mTxCategory').value) || null;
+      if (!payload.account_id)  { alert('Select an account.');  return; }
+      if (!payload.category_id) { alert('Select a category.');   return; }
+    }
+
+    try {
+      if (state.editingTransactionId) {
+        await apiPut('/transactions/' + state.editingTransactionId, payload);
+      } else {
+        await apiPost('/transactions', payload);
+      }
+      await loadAll();
+      renderAll();
+      // Add new name to allNames for autocomplete if not present
+      if (desc && !state.allNames.includes(desc)) {
+        state.allNames.push(desc);
+        state.allNames.sort();
+      }
+      closeTransactionModal();
+    } catch (err) {
+      alert('Error: ' + err.message);
+    }
+  }
+
+  /* ── Name Autocomplete ── */
+  let suggestionDebounce = null;
+
+  function buildSuggestions(query) {
+    const container = document.getElementById('nameSuggestions');
+    if (!container) return;
+    if (query.length < 2) { container.style.display = 'none'; return; }
+    const q = query.toLowerCase();
+    const matches = state.allNames.filter(n => n.toLowerCase().includes(q)).slice(0, 7);
+    if (!matches.length) { container.style.display = 'none'; return; }
+    container.innerHTML = matches.map(name => {
+      const idx = name.toLowerCase().indexOf(q);
+      const before = escapeHtml(name.slice(0, idx));
+      const match = escapeHtml(name.slice(idx, idx + query.length));
+      const after = escapeHtml(name.slice(idx + query.length));
+      return `<div class="name-suggestion-item" onclick="fillSuggestion('${escapeHtml(name).replace(/'/g, "\\'")}')">${before}<mark>${match}</mark>${after}</div>`;
+    }).join('');
+    container.style.display = 'block';
+  }
+
+  function fillSuggestion(name) {
+    document.getElementById('mTxDesc').value = name;
+    hideSuggestions();
+  }
+
+  function hideSuggestions() {
+    const container = document.getElementById('nameSuggestions');
+    if (container) container.style.display = 'none';
+  }
+
+  // Attach input listener to name field
+  document.addEventListener('DOMContentLoaded', () => {
+    const nameInput = document.getElementById('mTxDesc');
+    if (nameInput) {
+      nameInput.addEventListener('input', (e) => {
+        clearTimeout(suggestionDebounce);
+        suggestionDebounce = setTimeout(() => buildSuggestions(e.target.value), 150);
+      });
+      nameInput.addEventListener('blur', () => {
+        // Delay so click on suggestion registers first
+        setTimeout(hideSuggestions, 200);
+      });
+      nameInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') hideSuggestions();
+      });
+    }
+  });
+
+  /* ── Delete Transaction (from within modal) ── */
+  function confirmDeleteCurrentTransaction() {
+    if (!state.editingTransactionId) return;
+    showConfirm('Delete this transaction?', async () => {
+      try {
+        await apiDelete('/transactions/' + state.editingTransactionId);
+        await loadAll();
+        renderAll();
+        closeTransactionModal();
+      } catch (err) {
+        alert('Error: ' + err.message);
+      }
+    });
+  }
+
+  /* ── Account Modal ── */
+  function openAccountModal(id = null) {
+    state.editingAccountId = id;
+    const titleEl       = document.getElementById('accountModalTitle');
+    const nameEl        = document.getElementById('mAcName');
+    const typeEl        = document.getElementById('mAcType');
+    const iconEl         = document.getElementById('mAcIcon');
+    const overrideSection = document.getElementById('accountOverrideSection');
+    const deleteBtn      = document.getElementById('deleteAccountBtn');
+
+    if (id) {
+      const acc = state.accounts.find(a => a.id === id);
+      if (!acc) return;
+      titleEl.textContent = 'Edit Account';
+      nameEl.value  = acc.name;
+      typeEl.value  = acc.type;
+      iconEl.value  = acc.icon || '';
+      document.getElementById('mAcGroup').value = acc.account_group || '';
+      overrideSection.style.display = 'block';
+      document.getElementById('mAcBalance').value = '';
+      document.getElementById('computedHint').textContent = 'Computed balance: ' + fmt(acc.balance || 0);
+      deleteBtn.style.display = 'block';
+      state.editingAccountId = id;
+    } else {
+      titleEl.textContent = 'Add Account';
+      nameEl.value  = '';
+      typeEl.value  = 'Cash';
+      iconEl.value  = '';
+      document.getElementById('mAcGroup').value = '';
+      overrideSection.style.display = 'none';
+      deleteBtn.style.display = 'none';
+      state.editingAccountId = null;
+    }
+
+    document.getElementById('accountModalOverlay').classList.add('open');
+  }
+
+  function closeAccountModal() {
+    document.getElementById('accountModalOverlay').classList.remove('open');
+    state.editingAccountId = null;
+  }
+
+  function closeAccountModalOnOverlay(e) {
+    if (e.target === document.getElementById('accountModalOverlay')) closeAccountModal();
+  }
+
+  async function submitAccountFromModal() {
+    const name  = document.getElementById('mAcName').value.trim();
+    const type  = document.getElementById('mAcType').value;
+    const icon  = document.getElementById('mAcIcon').value.trim();
+    const account_group = document.getElementById('mAcGroup').value;
+
+    if (!name) { alert('Enter account name.'); return; }
+
+    try {
+      if (state.editingAccountId) {
+        await apiPut('/accounts/' + state.editingAccountId, { name, type, icon, account_group });
+      } else {
+        await apiPost('/accounts', { name, type, icon, account_group });
+      }
+      await loadAll();
+      renderAll();
+      closeAccountModal();
+    } catch (err) {
+      alert('Error: ' + err.message);
+    }
+  }
+
+  async function applyBalanceOverride() {
+    if (!state.editingAccountId) return;
+    const balance = parseFloat(document.getElementById('mAcBalance').value);
+    if (isNaN(balance)) { alert('Enter a valid balance.'); return; }
+
+    try {
+      const result = await apiPost('/accounts/' + state.editingAccountId + '/override', { balance });
+      await loadAll();
+      renderAll();
+      document.getElementById('computedHint').textContent = 'New balance: ' + fmt(result.balance);
+      document.getElementById('mAcBalance').value = '';
+    } catch (err) {
+      alert('Error: ' + err.message);
+    }
+  }
+
+  function confirmDeleteAccount() {
+    if (!state.editingAccountId) return;
+    showConfirm('Delete this account? This cannot be undone.', async () => {
+      try {
+        await apiDelete('/accounts/' + state.editingAccountId);
+        await loadAll();
+        renderAll();
+        closeAccountModal();
+      } catch (err) {
+        alert('Error: ' + err.message);
+      }
+    });
+  }
+
+  /* ── Category Modal ── */
+  function openCategoryModal(id = null) {
+    state.editingCategoryId = id;
+    const titleEl = document.getElementById('categoryModalTitle');
+    const nameEl  = document.getElementById('mCatName');
+    const typeEl  = document.getElementById('mCatType');
+    const iconEl  = document.getElementById('mCatIcon');
+    const deleteBtn = document.getElementById('deleteCategoryBtn');
+
+    if (id) {
+      const cat = state.categories.find(c => c.id === id);
+      if (!cat) return;
+      titleEl.textContent = 'Edit Category';
+      nameEl.value  = cat.name;
+      typeEl.value  = cat.type;
+      iconEl.value  = cat.icon || '';
+      deleteBtn.style.display = cat.is_offset ? 'none' : 'block';
+      state.editingCategoryId = id;
+    } else {
+      titleEl.textContent = 'Add Category';
+      nameEl.value  = '';
+      typeEl.value  = 'Expense';
+      iconEl.value  = '';
+      deleteBtn.style.display = 'none';
+      state.editingCategoryId = null;
+    }
+
+    document.getElementById('categoryModalOverlay').classList.add('open');
+  }
+
+  function closeCategoryModal() {
+    document.getElementById('categoryModalOverlay').classList.remove('open');
+    state.editingCategoryId = null;
+  }
+
+  function closeCategoryModalOnOverlay(e) {
+    if (e.target === document.getElementById('categoryModalOverlay')) closeCategoryModal();
+  }
+
+  async function submitCategoryFromModal() {
+    const name  = document.getElementById('mCatName').value.trim();
+    const type  = document.getElementById('mCatType').value;
+    const icon  = document.getElementById('mCatIcon').value.trim();
+
+    if (!name) { alert('Enter category name.'); return; }
+
+    try {
+      if (state.editingCategoryId) {
+        await apiPut('/categories/' + state.editingCategoryId, { name, type, icon });
+      } else {
+        await apiPost('/categories', { name, type, icon });
+      }
+      await loadAll();
+      renderAll();
+      closeCategoryModal();
+    } catch (err) {
+      alert('Error: ' + err.message);
+    }
+  }
+
+  function confirmDeleteCategory() {
+    if (!state.editingCategoryId) return;
+    showConfirm('Delete this category? This cannot be undone.', async () => {
+      try {
+        await apiDelete('/categories/' + state.editingCategoryId);
+        await loadAll();
+        renderAll();
+        closeCategoryModal();
+      } catch (err) {
+        alert('Error: ' + err.message);
+      }
+    });
+  }
+
+  /* ── Groups State & Management ── */
+  let groupsList = []; // e.g. ['Checking','Savings','Credit Card','Cash','Investment']
+
+  function openGroupModal() {
+    renderGroupsList();
+    document.getElementById('mGroupName').value = '';
+    document.getElementById('groupModalOverlay').classList.add('open');
+  }
+
+  function closeGroupModal() {
+    document.getElementById('groupModalOverlay').classList.remove('open');
+  }
+
+  function closeGroupModalOnOverlay(e) {
+    if (e.target === document.getElementById('groupModalOverlay')) closeGroupModal();
+  }
+
+  function renderGroupsList() {
+    const el = document.getElementById('groupsList');
+    if (!groupsList.length) {
+      el.innerHTML = '<p style="color:var(--text-muted);font-size:0.8rem;text-align:center;padding:0.5rem">No groups yet.</p>';
+      return;
+    }
+    el.innerHTML = groupsList.map(g => `<div style="display:flex;align-items:center;justify-content:space-between;padding:0.35rem 0.5rem;border-radius:6px;background:#141414;margin-bottom:0.3rem">
+      <span style="font-size:0.85rem">${escapeHtml(g)}</span>
+      <button class="btn btn-sm btn-ghost" onclick="deleteGroup('${escapeHtml(g).replace("'", "\'")}')" style="font-size:0.7rem;padding:0.15rem 0.4rem">✕</button>
+    </div>`).join('');
+  }
+
+  async function submitGroupFromModal() {
+    const name = document.getElementById('mGroupName').value.trim();
+    if (!name) { alert('Enter a group name.'); return; }
+    if (groupsList.includes(name)) { alert('Group already exists.'); return; }
+    groupsList.push(name);
+    groupsList.sort();
+    localStorage.setItem('ft_groups', JSON.stringify(groupsList));
+    // Update the account form group dropdown
+    populateGroupDropdown();
+    renderGroupsList();
+    document.getElementById('mGroupName').value = '';
+  }
+
+  async function deleteGroup(name) {
+    // Check if any account uses this group
+    const used = state.accounts.filter(a => a.account_group === name).length;
+    if (used > 0) { alert(`Cannot delete "${name}" — ${used} account(s) still using it.`); return; }
+    groupsList = groupsList.filter(g => g !== name);
+    localStorage.setItem('ft_groups', JSON.stringify(groupsList));
+    populateGroupDropdown();
+    renderGroupsList();
+  }
+
+  function loadGroups() {
+    try {
+      const stored = localStorage.getItem('ft_groups');
+      if (stored) {
+        groupsList = JSON.parse(stored);
+      } else {
+        groupsList = ['Checking','Savings','Credit Card','Cash','Investment'];
+        localStorage.setItem('ft_groups', JSON.stringify(groupsList));
+      }
+    } catch(e) { groupsList = []; }
+  }
+
+  function populateGroupDropdown() {
+    const select = document.getElementById('mAcGroup');
+    if (!select) return;
+    const current = select.value;
+    select.innerHTML = '<option value="">— None —</option>' +
+      groupsList.map(g => `<option value="${escapeHtml(g)}">${escapeHtml(g)}</option>`).join('');
+    select.value = current;
+  }
+
+  /* ── Generic Modal (confirm dialog) ── */
+  function closeModalOnOverlay(e) {
+    if (e.target === document.getElementById('modalOverlay')) closeModal();
+  }
+
+  function closeModal() {
+    document.getElementById('modalOverlay').classList.remove('open');
+  }
+
+  function showConfirm(msg, onYes) {
+    const body = document.getElementById('modalBody');
+    body.innerHTML = `
+      <div class="modal-header">
+        <h2>Confirm</h2>
+        <button class="modal-close" onclick="closeModal()">×</button>
+      </div>
+      <div class="confirm-box">
+        <p>${msg}</p>
+        <div class="confirm-actions">
+          <button class="btn btn-ghost" onclick="closeModal()">Cancel</button>
+          <button class="btn btn-danger" id="confirmYesBtn">Delete</button>
+        </div>
+      </div>`;
+    document.getElementById('confirmYesBtn').addEventListener('click', () => { closeModal(); onYes(); });
+    document.getElementById('modalOverlay').classList.add('open');
+  }
+
+  /* ── Floating + button (mobile FAB) ── */
+  /* (floatingAddBtn is inline onclick, no addEventListener needed) */
+
+  /* ── Search / Filter ── */
+  let searchDebounceTimer = null;
+  // Filter dropdown state
+  const filterState = {
+    type: { selected: ['Income','Expense','Transfer'], options: ['Income','Expense','Transfer'] },
+    accounts: { selected: [], options: [] },
+    category: { selected: [], options: [] }
+  };
+
+  function toggleFilterPanel() {
+    const panel = document.getElementById('filterPanel');
+    if (panel.style.display === 'none') {
+      panel.style.display = 'block';
+      if (!document.getElementById('filterDateFrom').value) {
+        const today = new Date();
+        const tomorrow = new Date(today);
+        tomorrow.setDate(tomorrow.getDate() + 1);
+        document.getElementById('filterDateFrom').value = today.toISOString().split('T')[0];
+        document.getElementById('filterDateTo').value = tomorrow.toISOString().split('T')[0];
+      }
+      filterState.accounts.options = state.accounts.map(a => ({ id: a.id, name: a.name }));
+      filterState.accounts.selected = state.accounts.map(a => a.id);
+      filterState.category.options = state.categories.filter(c => !c.is_offset).map(c => ({ id: c.id, name: (c.icon||'') + ' ' + c.name }));
+      filterState.category.selected = state.categories.filter(c => !c.is_offset).map(c => c.id);
+      buildDropdownOptions('accounts');
+      buildDropdownOptions('category');
+    } else {
+      panel.style.display = 'none';
+    }
+  }
+  function buildDropdownOptions(which) {
+    const list = document.getElementById('dd-' + which + '-options');
+    if (!list) return;
+    const opts = filterState[which].options;
+    list.innerHTML = opts.map(opt => {
+      const id = opt.id || opt;
+      const name = opt.name || opt;
+      const checked = filterState[which].selected.includes(id) ? 'checked' : '';
+      const label = escapeHtml(name);
+      return `<div class="filter-option" data-id="${id}" data-which="${which}" onclick="toggleOption('${which}', ${id})"><input type="checkbox" ${checked} /> ${label}</div>`;
+    }).join('');
+  }
+  function toggleDropdown(which) {
+    ['type','accounts','category'].forEach(w => {
+      if (w !== which) {
+        document.getElementById('panel-' + w) && document.getElementById('panel-' + w).classList.remove('open');
+        document.querySelector('#dd-' + w + ' .dd-chevron') && document.querySelector('#dd-' + w + ' .dd-chevron').classList.remove('open');
+      }
+    });
+    const panel = document.getElementById('panel-' + which);
+    const chevron = document.querySelector('#dd-' + which + ' .dd-chevron');
+    if (!panel) return;
+    const isOpen = panel.classList.contains('open');
+    panel.classList.toggle('open');
+    if (chevron) chevron.classList.toggle('open', !isOpen);
+    updateDropdownLabel(which);
+  }
+  function updateDropdownLabel(which) {
+    const label = document.getElementById('dd-' + which + '-label');
+    if (!label) return;
+    const selected = filterState[which].selected;
+    const allOpts = filterState[which].options;
+    const allIds = allOpts.map(o => o.id || o);
+    if (selected.length === 0) {
+      label.textContent = which === 'type' ? 'Type (all)' : (which === 'accounts' ? 'Accounts (all)' : 'Category (all)');
+    } else if (selected.length >= allIds.length) {
+      label.textContent = which === 'type' ? 'Type (all)' : (which === 'accounts' ? 'Accounts (all)' : 'Category (all)');
+    } else {
+      label.textContent = selected.length + ' selected';
+    }
+  }
+  function toggleOption(which, id) {
+    const idx = filterState[which].selected.indexOf(id);
+    if (idx === -1) {
+      filterState[which].selected.push(id);
+    } else {
+      filterState[which].selected.splice(idx, 1);
+    }
+    const optEl = document.querySelector(`#dd-${which}-options .filter-option[data-id="${id}"] input`);
+    if (optEl) optEl.checked = idx === -1;
+    updateFilterCount();
+    updateDropdownLabel(which);
+  }
+  function selectAllDropdown(which) {
+    filterState[which].selected = filterState[which].options.map(o => o.id || o);
+    buildDropdownOptions(which);
+    updateFilterCount();
+    updateDropdownLabel(which);
+  }
+  function clearDropdown(which) {
+    filterState[which].selected = [];
+    buildDropdownOptions(which);
+    updateFilterCount();
+    updateDropdownLabel(which);
+  }
+  function updateFilterCount() {
+    const countEl = document.getElementById('filter-count');
+    let total = 0;
+    if (filterState.type.selected.length < 3) total++;
+    if (filterState.accounts.selected.length > 0 && filterState.accounts.selected.length < state.accounts.length) total++;
+    const catTotal = state.categories.filter(c => !c.is_offset).length;
+    if (filterState.category.selected.length > 0 && filterState.category.selected.length < catTotal) total++;
+    const dateFrom = document.getElementById('filterDateFrom').value;
+    const dateTo = document.getElementById('filterDateTo').value;
+    if (dateFrom || dateTo) total++;
+    activeFilterCount = total;
+    if (total > 0) {
+      countEl.textContent = total;
+      countEl.style.display = 'inline';
+    } else {
+      countEl.style.display = 'none';
+    }
+  }
+  function applyFilters() {
+    updateFilterCount();
+    document.getElementById('filterPanel').style.display = 'none';
+    runSearch();
+  }
+  function clearAllFilters() {
+    filterState.type.selected = ['Income','Expense','Transfer'];
+    filterState.accounts.selected = state.accounts.map(a => a.id);
+    filterState.category.selected = state.categories.filter(c => !c.is_offset).map(c => c.id);
+    const today = new Date();
+    const tomorrow = new Date(today);
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    document.getElementById('filterDateFrom').value = today.toISOString().split('T')[0];
+    document.getElementById('filterDateTo').value = tomorrow.toISOString().split('T')[0];
+    buildDropdownOptions('accounts');
+    buildDropdownOptions('category');
+    updateFilterCount();
+    runSearch();
+  }
+  function runSearch() {
+    clearTimeout(searchDebounceTimer);
+    searchDebounceTimer = setTimeout(doSearch, 300);
+  }
+  function doSearch() {
+    const query = document.getElementById('search-input').value.trim().toLowerCase();
+    const dateFrom = document.getElementById('filterDateFrom').value;
+    const dateTo = document.getElementById('filterDateTo').value;
+    let txs = state.transactions.filter(tx => !tx.is_offset);
+    if (query) { txs = txs.filter(tx => (tx.description || '').toLowerCase().includes(query)); }
+    const typeSelected = filterState.type.selected;
+    if (typeSelected.length < 3) { txs = txs.filter(tx => typeSelected.includes(tx.type)); }
+    const accSelected = filterState.accounts.selected;
+    if (accSelected.length > 0 && accSelected.length < state.accounts.length) {
+      txs = txs.filter(tx => {
+        if (tx.type === 'Transfer') return accSelected.includes(tx.from_account_id) || accSelected.includes(tx.to_account_id);
+        return accSelected.includes(tx.account_id);
+      });
+    }
+    const catSelected = filterState.category.selected;
+    const catTotal = state.categories.filter(c => !c.is_offset).length;
+    if (catSelected.length > 0 && catSelected.length < catTotal) { txs = txs.filter(tx => catSelected.includes(tx.category_id)); }
+    if (dateFrom) txs = txs.filter(tx => tx.date >= dateFrom);
+    if (dateTo)   txs = txs.filter(tx => tx.date <= dateTo);
+    renderSearchResults(txs);
+  }
+
+  function renderSearchResults(txs) {
+    const el = document.getElementById('search-results');
+    if (!txs.length) {
+      el.innerHTML = '<div class="empty-state"><span class="emoji">🔍</span><p>No transactions match your search.</p></div>';
+      return;
+    }
+
+    txs.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+    const groups = {};
+    txs.forEach(tx => {
+      const ds = tx.date;
+      if (!groups[ds]) groups[ds] = { txs: [], income: 0, expense: 0 };
+      groups[ds].txs.push(tx);
+      if (tx.type === 'Income')  groups[ds].income  += tx.amount;
+      if (tx.type === 'Expense') groups[ds].expense += tx.amount;
+    });
+
+    const sortedDates = Object.keys(groups).sort((a, b) => new Date(b) - new Date(a));
+    let html = '';
+
+    sortedDates.forEach(ds => {
+      const group = groups[ds];
+      html += `<div class="day-header">
+        <span class="day-date">${fmtDate(ds)}</span>
+        <span class="day-totals">
+          ${group.income  > 0 ? `<span class="day-income">+${fmt(group.income)}</span>` : ''}
+          ${group.expense > 0 ? `<span class="day-expense">-${fmt(group.expense)}</span>` : ''}
+        </span>
+      </div>`;
+      html += `<table class="tx-table"><tbody>`;
+      group.txs.forEach(tx => {
+        let accountLabel = '';
+        if (tx.type === 'Transfer') {
+          accountLabel = (tx.from_account_name || '?') + ' \u2192 ' + (tx.to_account_name || '?');
+        } else {
+          accountLabel = tx.account_name || '?';
+        }
+        const cls = tx.type.toLowerCase();
+        const dummyBadge = tx.is_dummy ? '[DUMMY] ' : '';
+        const dummyClass = '';
+        let catLabel = '';
+        if (tx.type === 'Transfer') {
+          catLabel = (tx.from_account_name || '?') + ' \u2192 ' + (tx.to_account_name || '?');
+        } else {
+          catLabel = (tx.category_icon || '') + ' ' + (tx.category_name || '—');
+        }
+        html += `<tr class="tx-row" onclick="openTransactionModal(${tx.id})">
+          <td class="tx-cat">${escapeHtml(catLabel)}</td>
+          <td class="tx-desc">${escapeHtml(tx.description || tx.type)}${dummyBadge}</td>
+          <td class="tx-acct">${escapeHtml(accountLabel)}</td>
+          <td class="tx-amount-cell ${cls}">${fmt(tx.amount)}</td>
+        </tr>`;
+      });
+      html += `</tbody></table>`;
+    });
+
+    el.innerHTML = html;
+  }
+
+  /* ── Start ── */
+  init();
+</script>
+<div id="floatingAddBtn" onclick="openTransactionModal()" title="Add Transaction">+</div>
+</body>
+</html>
