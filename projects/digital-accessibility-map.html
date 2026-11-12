@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Digital Accessibility Map | Paolo Resurreccion</title>
+  <meta name="description" content="A public accessibility map for Brgy. Real in Calamba City: ramps, sidewalks, crossings and restrooms, with screenshots and how it works.">
+  <meta name="theme-color" content="#f1eee6">
+  <meta property="og:title" content="Digital Accessibility Map | Paolo Resurreccion">
+  <meta property="og:description" content="A public accessibility map for Brgy. Real in Calamba City: ramps, sidewalks, crossings and restrooms, with screenshots and how it works.">
+  <meta property="og:type" content="website">
+  <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&family=JetBrains+Mono:wght@400;700&display=swap">
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+
+  <header class="card bar">
+    <a class="logo" href="/" aria-label="Paolo Resurreccion, home">
+      <span class="logo-key" aria-hidden="true">P</span>
+      <span>Paolo Resurreccion</span>
+    </a>
+    <nav aria-label="Main">
+      <ul>
+        <li><a href="/#lab">Lab</a></li>
+        <li><a href="/#projects">Projects</a></li>
+        <li><a href="/#builds">Builds by PJ</a></li>
+        <li><a href="/#contact">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main id="main">
+    <section class="card d-hero" aria-labelledby="t">
+      <p class="crumb"><a href="/">Home</a> / <a href="/#projects">Projects</a> / Digital Accessibility Map</p>
+      <p class="chips">
+        <span class="chip chip-live"><span class="dot" aria-hidden="true"></span>Live</span>
+        <span class="chip">Public repository</span>
+      </p>
+      <h1 id="t">Digital Accessibility Map</h1>
+      <p class="lead">A public map of how accessible Brgy. Real in Calamba City is for people who use wheelchairs, walkers or crutches. Anyone can check a ramp, restroom or crossing before they leave home, and editors with their own accounts keep it up to date from the field.</p>
+      <p class="actions">
+        <a class="key key-red" href="https://barangay-real-access.vercel.app" rel="noopener">Open the live map</a>
+        <a class="key key-white" href="https://github.com/resurreccionpj/digital-accesibility-map" rel="noopener"><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false"><path fill="currentColor" d="M12 .5a11.5 11.5 0 0 0-3.64 22.41c.58.1.79-.25.79-.56v-2c-3.2.7-3.87-1.36-3.87-1.36-.52-1.33-1.28-1.69-1.28-1.69-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.18 1.76 1.18 1.03 1.76 2.69 1.25 3.35.96.1-.75.4-1.25.73-1.54-2.55-.29-5.24-1.28-5.24-5.69 0-1.26.45-2.28 1.18-3.09-.12-.29-.51-1.46.11-3.05 0 0 .97-.31 3.17 1.18a11 11 0 0 1 5.77 0c2.2-1.49 3.17-1.18 3.17-1.18.62 1.59.23 2.76.11 3.05.74.81 1.18 1.83 1.18 3.09 0 4.42-2.69 5.39-5.25 5.68.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.56A11.5 11.5 0 0 0 12 .5z"/></svg> View the code</a>
+      </p>
+      <dl class="facts">
+        <div><dt>My role</dt><dd>Design and development</dd></div>
+        <div><dt>Built with</dt><dd>Next.js, TypeScript, Tailwind, Leaflet</dd></div>
+        <div><dt>Data</dt><dd>Neon Postgres and Vercel Blob</dd></div>
+        <div><dt>Where it stands</dt><dd>Live, 22 places mapped</dd></div>
+        <div><dt>Languages</dt><dd>English and Filipino</dd></div>
+      </dl>
+    </section>
+
+    <section class="dsec shots" aria-labelledby="look-h">
+      <h2 id="look-h">What it looks like</h2>
+      <figure class="shot">
+        <img src="/assets/shots/map-desktop.jpg" width="1440" height="900" alt="The map on a desktop screen: a search box, status filters and a list of places on the left, and pins with small feature icons on an OpenStreetMap background.">
+        <figcaption><b>The map and the list, side by side.</b> Each pin shows what the place is with an icon, and how it's doing with a shape and a colour. The small tiles under a pin are its individual features.</figcaption>
+      </figure>
+      <div class="shot-row shots-wide">
+        <figure class="shot">
+          <img src="/assets/shots/map-place.jpg" width="1440" height="900" alt="A place page for 268 Mall showing a Needs improvement status, a Get directions button, and three feature cards for crossing, sidewalk and PWD ramp.">
+          <figcaption><b>A place page.</b> Every feature has its own status and note, followed by what exists, what is missing and what to improve, plus a Get directions button.</figcaption>
+        </figure>
+        <figure class="shot">
+          <img src="/assets/shots/map-fil.jpg" width="1440" height="900" alt="The same map with the interface in Filipino, including the search box, status filters and place categories.">
+          <figcaption><b>English and Filipino.</b> One button switches the interface. Notes that editors type stay as typed.</figcaption>
+        </figure>
+      </div>
+      <figure class="shot">
+        <div class="phones">
+          <img src="/assets/shots/map-mobile.jpg" width="780" height="1688" alt="The map on a phone: a search box and status filters on top, pins across the screen.">
+          <img src="/assets/shots/map-mobile-place.jpg" width="780" height="1688" alt="A place page on a phone, sliding up from the bottom over the map.">
+        </div>
+        <figcaption><b>Made for phones first.</b> The map fills the screen and the list or place page slides up from the bottom. It works from a 375px screen up.</figcaption>
+      </figure>
+    </section>
+
+    <section class="dsec" aria-labelledby="feat-h">
+      <h2 id="feat-h">What it does</h2>
+      <div class="feat-grid">
+        <div class="feat"><h3>Pins for places, lines for streets</h3><p>Buildings, ramps and bus stops are pins. Streets, sidewalks and crossings are drawn as lines along the route. There are 14 categories, from schools and healthcare facilities to accessible restrooms.</p></div>
+        <div class="feat"><h3>A checklist for each place</h3><p>A building can have a ramp, entrance, restroom, curb ramp, crossing, signage and PWD parking. Each one gets its own status and a short note, like "slope looks too steep".</p></div>
+        <div class="feat"><h3>Filters that match the feature</h3><p>Search by name, or filter by status, category and feature. Filtering for a PWD ramp that exists still shows a place with a good ramp, even when the building as a whole needs work.</p></div>
+        <div class="feat"><h3>Map or list</h3><p>Some people would rather read than pan a map, so every place is also in a list that sits beside the map on desktop and slides up on mobile.</p></div>
+        <div class="feat"><h3>Built for fieldwork</h3><p>Editors log in, tap "Use my current location", add features and notes, and attach photos. Photos shrink automatically, carry a caption and are grouped by feature in the place's gallery.</p></div>
+        <div class="feat"><h3>Your data, your tools</h3><p>One click downloads everything as CSV for Excel and Google Sheets, or as GeoJSON for QGIS and Google My Maps. The CSV export neutralises spreadsheet formulas in typed text.</p></div>
+        <div class="feat"><h3>Keyboard and screen reader friendly</h3><p>Designed mobile-first and for keyboard and screen-reader use, aiming at WCAG 2.1 AA. Status never relies on colour alone.</p></div>
+      </div>
+    </section>
+
+    <section class="dsec" aria-labelledby="read-h">
+      <h2 id="read-h">Reading the map</h2>
+      <p>Four statuses, each with its own icon and shape as well as a colour.</p>
+      <ul class="status-list">
+        <li><span class="glyph g-ok" aria-hidden="true">&#10003;</span><span><b>Existing.</b> The feature is there and usable. Shown as a green circle.</span></li>
+        <li><span class="glyph g-warn" aria-hidden="true">!</span><span><b>Needs improvement.</b> It's there but has barriers, like a steep ramp or a blocked sidewalk. Shown in orange.</span></li>
+        <li><span class="glyph g-plan" aria-hidden="true">+</span><span><b>Proposed.</b> Not built yet, but recommended. Shown as a blue square.</span></li>
+        <li><span class="glyph g-ask" aria-hidden="true">?</span><span><b>Needs further assessment.</b> Not enough information yet. Shown in grey.</span></li>
+      </ul>
+    </section>
+
+    <section class="dsec" aria-labelledby="build-h">
+      <h2 id="build-h">How it's built</h2>
+      <p>A Next.js app with the App Router and TypeScript, styled with Tailwind. The map uses Leaflet and OpenStreetMap, which need no API key. Data lives in Neon Postgres, written as plain SQL with no ORM, and photos go to Vercel Blob. It runs on Vercel's free tier.</p>
+      <ul class="pill-list" aria-label="Technologies">
+        <li>Next.js</li><li>TypeScript</li><li>Tailwind</li><li>Leaflet</li><li>OpenStreetMap</li><li>Neon Postgres</li><li>Vercel Blob</li><li>Vercel</li>
+      </ul>
+      <p>Anyone can read the map, but only editors can change it. Every write endpoint checks the session, passwords are hashed, sessions use a signed httpOnly cookie, and no secrets are committed to the repository.</p>
+    </section>
+
+    <section class="dsec" aria-labelledby="state-h">
+      <h2 id="state-h">Where it stands</h2>
+      <p>The map holds 22 places. Their details come from a desk assessment of OpenStreetMap data and public pages, and each one is marked "confirm on site". The next step is fieldwork. A guide in the repository, in English and Filipino, shows student volunteers (NSTP) what to record at each stop so it goes straight into the map.</p>
+    </section>
+
+    <section class="dsec" aria-labelledby="next-h">
+      <h2 id="next-h">More to see</h2>
+      <p class="next">
+        <a class="key key-white" href="/projects/openclaw-local.html">OpenClaw Local</a>
+        <a class="key key-white" href="/projects/frostbite.html">Frostbite financial tracker</a>
+        <a class="key key-white" href="/#projects">All projects</a>
+      </p>
+    </section>
+  </main>
+
+  <footer>
+    <p class="mono">&copy; 2026 Paolo Resurreccion.</p>
+  </footer>
+</body>
+</html>

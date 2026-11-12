@@ -97,6 +97,8 @@ const info = {
   obs: ['Observability', 'Full-stack observability across the lab, so I can see how each project behaves.'],
 };
 
+const idle = [title.textContent, text.textContent];
+
 const BASE = 35;
 let target = BASE;
 let current = BASE;
@@ -159,9 +161,10 @@ racks.forEach((b) =>
   b.addEventListener('click', (e) => {
     if (moved && e.detail !== 0) { moved = false; return; }
     moved = false;
-    racks.forEach((r) => r.setAttribute('aria-pressed', String(r === b)));
-    rig.classList.add('has-sel');
-    const [name, desc] = info[b.dataset.rack];
+    const wasOn = b.getAttribute('aria-pressed') === 'true';
+    racks.forEach((r) => r.setAttribute('aria-pressed', String(!wasOn && r === b)));
+    rig.classList.toggle('has-sel', !wasOn);
+    const [name, desc] = wasOn ? idle : info[b.dataset.rack];
     title.textContent = name;
     text.textContent = desc;
   })

@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>OpenClaw Local | Paolo Resurreccion</title>
+  <meta name="description" content="A self-hosted AI assistant stack: FastAPI hub, Traefik HTTPS, Docker Compose, local Qwen on llama.cpp and custom skills.">
+  <meta name="theme-color" content="#f1eee6">
+  <meta property="og:title" content="OpenClaw Local | Paolo Resurreccion">
+  <meta property="og:description" content="A self-hosted AI assistant stack: FastAPI hub, Traefik HTTPS, Docker Compose, local Qwen on llama.cpp and custom skills.">
+  <meta property="og:type" content="website">
+  <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&family=JetBrains+Mono:wght@400;700&display=swap">
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+
+  <header class="card bar">
+    <a class="logo" href="/" aria-label="Paolo Resurreccion, home">
+      <span class="logo-key" aria-hidden="true">P</span>
+      <span>Paolo Resurreccion</span>
+    </a>
+    <nav aria-label="Main">
+      <ul>
+        <li><a href="/#lab">Lab</a></li>
+        <li><a href="/#projects">Projects</a></li>
+        <li><a href="/#builds">Builds by PJ</a></li>
+        <li><a href="/#contact">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main id="main">
+    <section class="card d-hero" aria-labelledby="t">
+      <p class="crumb"><a href="/">Home</a> / <a href="/#projects">Projects</a> / OpenClaw Local</p>
+      <p class="chips">
+        <span class="chip">Self-hosted</span>
+        <span class="chip">Public repository</span>
+      </p>
+      <h1 id="t">OpenClaw Local</h1>
+      <p class="lead">A self-hosted AI assistant stack that runs at home. One service handles chat, finance, nutrition, a calendar and a system monitor behind HTTPS, and an agent can use my own custom skills to do real work.</p>
+      <p class="actions">
+        <a class="key key-white" href="https://github.com/resurreccionpj/openclaw-local" rel="noopener"><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false"><path fill="currentColor" d="M12 .5a11.5 11.5 0 0 0-3.64 22.41c.58.1.79-.25.79-.56v-2c-3.2.7-3.87-1.36-3.87-1.36-.52-1.33-1.28-1.69-1.28-1.69-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.18 1.76 1.18 1.03 1.76 2.69 1.25 3.35.96.1-.75.4-1.25.73-1.54-2.55-.29-5.24-1.28-5.24-5.69 0-1.26.45-2.28 1.18-3.09-.12-.29-.51-1.46.11-3.05 0 0 .97-.31 3.17 1.18a11 11 0 0 1 5.77 0c2.2-1.49 3.17-1.18 3.17-1.18.62 1.59.23 2.76.11 3.05.74.81 1.18 1.83 1.18 3.09 0 4.42-2.69 5.39-5.25 5.68.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.56A11.5 11.5 0 0 0 12 .5z"/></svg> View the code</a>
+      </p>
+      <dl class="facts">
+        <div><dt>My role</dt><dd>Design, build and operate it</dd></div>
+        <div><dt>Built with</dt><dd>FastAPI, Docker Compose, Traefik, SQLite</dd></div>
+        <div><dt>Models</dt><dd>Local Qwen, Gemini, Qwen3-Coder</dd></div>
+        <div><dt>Runs on</dt><dd>My home lab, GPU: RTX 4070</dd></div>
+      </dl>
+    </section>
+
+    <section class="dsec" aria-labelledby="arch-h">
+      <h2 id="arch-h">How the pieces fit</h2>
+      <div class="flow">
+        <div class="node"><b>Internet</b><p>Traffic comes in over HTTPS.</p></div>
+        <div class="link-v" aria-hidden="true"></div>
+        <div class="node node-red"><b>Traefik</b><p>Terminates HTTPS with Let's Encrypt certificates through DuckDNS, asks for basic auth, adds security headers and compresses responses. Routes by path to the hub.</p></div>
+        <div class="link-v" aria-hidden="true"></div>
+        <div class="node node-dark"><b>Hub (one FastAPI service)</b><p>Serves the landing page, chat, finance, nutrition, calendar, monitor and heartbeat modules from a single process, with SQLite databases inside it. I merged several small services into this one for speed and simplicity.</p></div>
+        <div class="link-v" aria-hidden="true"></div>
+        <div class="flow-split">
+          <div class="node"><b>OpenClaw agent</b><p>Calls the hub's API to run skills, read data and act.</p></div>
+          <div class="node"><b>Models</b><p>A local Qwen model on llama.cpp, plus hosted models through Google AI Studio and OpenRouter.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="dsec" aria-labelledby="mod-h">
+      <h2 id="mod-h">What's inside the hub</h2>
+      <ul class="mods">
+        <li><code>/chat</code> A chat page with streaming replies, file upload, tool calls and multi-model routing.</li>
+        <li><code>/finance</code> A personal expense and income tracker with credit cards and budgets.</li>
+        <li><code>/nutrition</code> A calorie and macro tracker with food search across USDA and Open Food Facts.</li>
+        <li><code>/calendar</code> Google Calendar events, a weekly digest and automatic token refresh.</li>
+        <li><code>/monitor</code> A dashboard for CPU, memory, disk, GPU and container health.</li>
+        <li><code>/heartbeat</code> A poller that lets the agent act on its own when something needs attention.</li>
+      </ul>
+    </section>
+
+    <section class="dsec" aria-labelledby="model-h">
+      <h2 id="model-h">Local models and routing</h2>
+      <p>I started by running a Qwen model locally with llama.cpp on my RTX 4070, which is great for privacy and works offline. For stronger reasoning, faster replies and a longer context window, the chat module can route a request to a hosted model instead.</p>
+      <p>A keyword-based classifier decides which one to use. Everyday chat goes to Gemini 2.5 Flash, and anything that looks like code, such as code blocks, "debug" or "refactor", goes to Qwen3-Coder through OpenRouter.</p>
+    </section>
+
+    <section class="dsec" aria-labelledby="skill-h">
+      <h2 id="skill-h">Custom skills</h2>
+      <p>The agent has nine custom skills. Adding another is a folder with a <code>SKILL.md</code> file.</p>
+      <ul class="pill-list" aria-label="Skills">
+        <li>self-admin</li><li>calendar-assistant</li><li>finance-tracker</li><li>nutrition-tracker</li><li>ph-credit-card-maximizer</li><li>ph-investment-advisor</li><li>travel-advisor</li><li>media-downloader</li><li>epub-downloader</li>
+      </ul>
+    </section>
+
+    <section class="dsec" aria-labelledby="ops-h">
+      <h2 id="ops-h">Keeping it healthy</h2>
+      <p>The stack starts with one <code>docker compose up</code>. Tests cover the routers, the finance and nutrition databases and their APIs, and GitHub Actions runs them on every push and pull request. Secrets stay in a <code>.env</code> file that is never committed.</p>
+    </section>
+
+    <section class="dsec" aria-labelledby="next-h">
+      <h2 id="next-h">More to see</h2>
+      <p class="next">
+        <a class="key key-white" href="/projects/digital-accessibility-map.html">Digital Accessibility Map</a>
+        <a class="key key-white" href="/projects/frostbite.html">Frostbite financial tracker</a>
+        <a class="key key-white" href="/#lab">Back to the home lab</a>
+      </p>
+    </section>
+  </main>
+
+  <footer>
+    <p class="mono">&copy; 2026 Paolo Resurreccion.</p>
+  </footer>
+</body>
+</html>

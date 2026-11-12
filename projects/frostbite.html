@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Frostbite financial tracker | Paolo Resurreccion</title>
+  <meta name="description" content="A self-hosted personal finance tracker built with Node.js, Express and SQLite, served over hardened HTTPS.">
+  <meta name="theme-color" content="#f1eee6">
+  <meta property="og:title" content="Frostbite financial tracker | Paolo Resurreccion">
+  <meta property="og:description" content="A self-hosted personal finance tracker built with Node.js, Express and SQLite, served over hardened HTTPS.">
+  <meta property="og:type" content="website">
+  <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&family=JetBrains+Mono:wght@400;700&display=swap">
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+
+  <header class="card bar">
+    <a class="logo" href="/" aria-label="Paolo Resurreccion, home">
+      <span class="logo-key" aria-hidden="true">P</span>
+      <span>Paolo Resurreccion</span>
+    </a>
+    <nav aria-label="Main">
+      <ul>
+        <li><a href="/#lab">Lab</a></li>
+        <li><a href="/#projects">Projects</a></li>
+        <li><a href="/#builds">Builds by PJ</a></li>
+        <li><a href="/#contact">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main id="main">
+    <section class="card d-hero" aria-labelledby="t">
+      <p class="crumb"><a href="/">Home</a> / <a href="/#projects">Projects</a> / Frostbite financial tracker</p>
+      <p class="chips">
+        <span class="chip"><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false"><path fill="currentColor" d="M17 9V7a5 5 0 0 0-10 0v2H5v13h14V9h-2zm-8-2a3 3 0 0 1 6 0v2H9V7z"/></svg> Private repository</span>
+        <span class="chip">Self-hosted</span>
+      </p>
+      <h1 id="t">Frostbite financial tracker</h1>
+      <p class="lead">A personal finance tracker that runs on my own server. It logs income, expenses and transfers across my accounts, and keeps all the data with me.</p>
+      <dl class="facts">
+        <div><dt>My role</dt><dd>Design, build and operate it</dd></div>
+        <div><dt>Built with</dt><dd>Node.js, Express, SQLite</dd></div>
+        <div><dt>Served over</dt><dd>Hardened HTTPS</dd></div>
+        <div><dt>Code</dt><dd>Private, so no link</dd></div>
+      </dl>
+    </section>
+
+    <section class="dsec" aria-labelledby="feat-h">
+      <h2 id="feat-h">What it does</h2>
+      <div class="feat-grid">
+        <div class="feat"><h3>Accounts that match real life</h3><p>Cash, savings, credit cards and investments, sorted into groups, with an option to override an account's balance.</p></div>
+        <div class="feat"><h3>Three kinds of entry</h3><p>Income, expenses and transfers. A transfer moves money between two accounts and doesn't need a category.</p></div>
+        <div class="feat"><h3>Categories with icons</h3><p>Separate income and expense categories, each with an icon and an optional offset flag.</p></div>
+        <div class="feat"><h3>Fast to search and filter</h3><p>Search from the top bar, or filter by type, account and category with select-all and clear on each list.</p></div>
+        <div class="feat"><h3>A credit card view</h3><p>Its own tab for credit cards, next to the transactions and accounts tabs.</p></div>
+        <div class="feat"><h3>Works on any screen</h3><p>The one-page interface is designed for desktop, iPad and iPhone, in Chrome, Safari and Firefox.</p></div>
+      </div>
+    </section>
+
+    <section class="dsec" aria-labelledby="build-h">
+      <h2 id="build-h">How it's built</h2>
+      <p>A small Express server with SQLite through better-sqlite3 and a single-page front end. The database creates its own tables and seeds defaults on first run, and the API has three routes for accounts, categories and transactions. Version 5 was a hardening release: the server redirects HTTP to HTTPS, generates its own certificates, and only accepts requests from the origins I list.</p>
+      <ul class="pill-list" aria-label="Technologies">
+        <li>Node.js</li><li>Express</li><li>SQLite</li><li>better-sqlite3</li><li>HTTPS</li><li>GitHub Actions</li>
+      </ul>
+      <p>Every push runs UI checks and API checks in GitHub Actions, and a final job blocks the merge if either fails.</p>
+    </section>
+
+    <section class="dsec" aria-labelledby="state-h">
+      <h2 id="state-h">Why it stays private</h2>
+      <p>It holds my own financial data and the details of how I reach my server, so the repository is private and there is no code link or public demo.</p>
+    </section>
+
+    <section class="dsec" aria-labelledby="next-h">
+      <h2 id="next-h">More to see</h2>
+      <p class="next">
+        <a class="key key-white" href="/projects/digital-accessibility-map.html">Digital Accessibility Map</a>
+        <a class="key key-white" href="/projects/openclaw-local.html">OpenClaw Local</a>
+        <a class="key key-white" href="/#contact">Get in touch</a>
+      </p>
+    </section>
+  </main>
+
+  <footer>
+    <p class="mono">&copy; 2026 Paolo Resurreccion.</p>
+  </footer>
+</body>
+</html>
