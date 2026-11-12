@@ -51,34 +51,50 @@
         </p>
       </div>
 
-      <div class="hero-art" aria-hidden="true">
-        <svg viewBox="0 0 400 330" focusable="false">
-          <g stroke="#141414" stroke-width="3.5" stroke-linejoin="round">
-            <!-- bottom slab -->
-            <path d="M200 290l90-45v26l-90 45z" fill="#2a2a28"/>
-            <path d="M110 245l90 45v26l-90-45z" fill="#cfcabb"/>
-            <path d="M200 200l90 45-90 45-90-45z" fill="#f7f4ea"/>
-            <!-- second slab -->
-            <path d="M200 254l90-45v26l-90 45z" fill="#2a2a28"/>
-            <path d="M110 209l90 45v26l-90-45z" fill="#cfcabb"/>
-            <path d="M200 164l90 45-90 45-90-45z" fill="#f7f4ea"/>
-            <!-- third slab -->
-            <path d="M200 218l90-45v26l-90 45z" fill="#2a2a28"/>
-            <path d="M110 173l90 45v26l-90-45z" fill="#cfcabb"/>
-            <path d="M200 128l90 45-90 45-90-45z" fill="#f7f4ea"/>
-            <!-- top slab -->
-            <path d="M200 182l90-45v26l-90 45z" fill="#8f1c16"/>
-            <path d="M110 137l90 45v26l-90-45z" fill="#b82820"/>
-            <path d="M200 92l90 45-90 45-90-45z" fill="#d32a21"/>
-          </g>
-          <g stroke="#141414" stroke-width="2.5">
-            <circle cx="124" cy="270" r="4.5" fill="#5ed17a"/><circle cx="138" cy="277" r="4.5" fill="#5ed17a"/>
-            <circle cx="124" cy="234" r="4.5" fill="#5ed17a"/><circle cx="138" cy="241" r="4.5" fill="#5ed17a"/>
-            <circle cx="124" cy="198" r="4.5" fill="#ffc21a"/><circle cx="138" cy="205" r="4.5" fill="#5ed17a"/>
-            <circle cx="124" cy="162" r="4.5" fill="#5ed17a"/><circle cx="138" cy="169" r="4.5" fill="#fff"/>
-          </g>
-        </svg>
-        <p class="mono cap">home lab, stacked</p>
+      <div class="hero-art">
+        <div class="lab" role="group" aria-label="Interactive home lab. Move the mouse or drag to spin it, then select a rack to learn more.">
+          <div class="stage" id="stage">
+            <div class="rig" id="rig">
+              <span class="floor" aria-hidden="true"></span>
+          <button class="rack" data-rack="obs" type="button" aria-pressed="false" aria-label="Observability rack">
+            <span class="f f-back" aria-hidden="true"></span>
+            <span class="f f-left" aria-hidden="true"></span>
+            <span class="f f-right" aria-hidden="true"></span>
+            <span class="f f-top" aria-hidden="true"></span>
+            <span class="f f-front" aria-hidden="true"><i class="led"></i><i class="led"></i><i class="led led-alt"></i></span>
+          </button>
+          <button class="rack" data-rack="ai" type="button" aria-pressed="false" aria-label="AI rack">
+            <span class="f f-back" aria-hidden="true"></span>
+            <span class="f f-left" aria-hidden="true"></span>
+            <span class="f f-right" aria-hidden="true"></span>
+            <span class="f f-top" aria-hidden="true"></span>
+            <span class="f f-front" aria-hidden="true"><i class="led"></i><i class="led"></i><i class="led led-alt"></i></span>
+          </button>
+          <button class="rack" data-rack="apps" type="button" aria-pressed="false" aria-label="Apps rack">
+            <span class="f f-back" aria-hidden="true"></span>
+            <span class="f f-left" aria-hidden="true"></span>
+            <span class="f f-right" aria-hidden="true"></span>
+            <span class="f f-top" aria-hidden="true"></span>
+            <span class="f f-front" aria-hidden="true"><i class="led"></i><i class="led"></i><i class="led led-alt"></i></span>
+          </button>
+          <button class="rack" data-rack="edge" type="button" aria-pressed="false" aria-label="Edge rack">
+            <span class="f f-back" aria-hidden="true"></span>
+            <span class="f f-left" aria-hidden="true"></span>
+            <span class="f f-right" aria-hidden="true"></span>
+            <span class="f f-top" aria-hidden="true"></span>
+            <span class="f f-front" aria-hidden="true"><i class="led"></i><i class="led"></i><i class="led led-alt"></i></span>
+          </button>
+            </div>
+          </div>
+          <p class="turn">
+            <button class="key key-white sm" type="button" data-turn="-1">Turn left</button>
+            <button class="key key-white sm" type="button" data-turn="1">Turn right</button>
+          </p>
+          <div class="rack-info" aria-live="polite">
+            <p class="rt" id="rack-title">My home lab</p>
+            <p id="rack-text">Move your mouse across it, or drag with a finger, to spin it. Then select a rack to see what it does.</p>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -90,6 +106,7 @@
       <pre id="log" role="log" aria-live="polite" aria-label="Lab status output"><span class="dim">$ press the key to check the lab</span></pre>
       <p class="term-foot">
         <button class="key key-red" id="run" type="button">Check the lab</button>
+        <button class="key key-white sm" id="sound" type="button">Sound: on</button>
         <span class="mono dim" id="state">idle</span>
       </p>
     </section>
