@@ -1,0 +1,74 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 260 390" role="img" aria-labelledby="t">
+  <title id="t">Brick-style figure of Paolo with round glasses, dark tousled hair, a brown overshirt over a white tee, and a big smile</title>
+  <defs>
+    <linearGradient id="cyl" x1="0" x2="1">
+      <stop offset="0" stop-color="#000" stop-opacity=".18"/>
+      <stop offset=".2" stop-color="#000" stop-opacity="0"/>
+      <stop offset=".8" stop-color="#000" stop-opacity="0"/>
+      <stop offset="1" stop-color="#000" stop-opacity=".22"/>
+    </linearGradient>
+  </defs>
+
+  <!-- legs -->
+  <rect x="62" y="284" width="66" height="76" rx="8" fill="#252a33"/>
+  <rect x="132" y="284" width="66" height="76" rx="8" fill="#252a33"/>
+  <rect x="62" y="262" width="136" height="30" rx="6" fill="#252a33"/>
+  <rect x="129" y="290" width="2" height="68" fill="#000" opacity=".35"/>
+  <!-- shoes -->
+  <rect x="56" y="350" width="74" height="26" rx="10" fill="#f1f0ea"/>
+  <rect x="130" y="350" width="74" height="26" rx="10" fill="#f1f0ea"/>
+  <rect x="56" y="368" width="74" height="8" rx="4" fill="#0a5ac2"/>
+  <rect x="130" y="368" width="74" height="8" rx="4" fill="#0a5ac2"/>
+
+  <!-- arms -->
+  <rect x="28" y="152" width="36" height="108" rx="15" fill="#4b3328"/>
+  <rect x="196" y="152" width="36" height="108" rx="15" fill="#4b3328"/>
+  <rect x="28" y="152" width="36" height="108" rx="15" fill="url(#cyl)"/>
+  <rect x="196" y="152" width="36" height="108" rx="15" fill="url(#cyl)"/>
+  <!-- hands -->
+  <path fill="#e3a872" fill-rule="evenodd" d="M46 252a17 17 0 1 0 .01 0zM46 263a6 6 0 1 1-.01 0z"/>
+  <path fill="#e3a872" fill-rule="evenodd" d="M214 252a17 17 0 1 0 .01 0zM214 263a6 6 0 1 1-.01 0z"/>
+
+  <!-- torso: white tee -->
+  <rect x="62" y="146" width="136" height="124" rx="10" fill="#f4f2ec"/>
+  <!-- overshirt panels -->
+  <path fill="#4b3328" d="M62 154q0-8 8-8h30l22 4-12 116H72q-10 0-10-10z"/>
+  <path fill="#4b3328" d="M198 154q0-8-8-8h-30l-22 4 12 116h38q10 0 10-10z"/>
+  <!-- collar -->
+  <path fill="#33211a" d="M90 146l32 4-12 36-28-32z"/>
+  <path fill="#33211a" d="M170 146l-32 4 12 36 28-32z"/>
+  <!-- tee neckline -->
+  <path fill="#e2dfd5" d="M122 150q8 10 16 0l2 10q-10 12-20 0z"/>
+  <!-- pocket and buttons -->
+  <rect x="158" y="196" width="28" height="28" rx="3" fill="#5c4235" stroke="#33211a" stroke-width="2"/>
+  <circle cx="112" cy="204" r="3.5" fill="#2a1a12"/>
+  <circle cx="110" cy="236" r="3.5" fill="#2a1a12"/>
+  <rect x="62" y="146" width="136" height="124" rx="10" fill="url(#cyl)"/>
+
+  <!-- neck -->
+  <rect x="112" y="134" width="36" height="16" fill="#c98f5a"/>
+
+  <!-- head -->
+  <rect x="108" y="12" width="44" height="18" rx="5" fill="#d89a63"/>
+  <rect x="70" y="26" width="120" height="112" rx="28" fill="#e3a872"/>
+  <rect x="70" y="26" width="120" height="112" rx="28" fill="url(#cyl)"/>
+  <rect x="82" y="40" width="9" height="84" rx="4.5" fill="#fff" opacity=".2"/>
+
+  <!-- hair -->
+  <path fill="#231f3a" d="M66 96C58 42 88 18 130 18s72 24 64 78c-6-22-14-32-30-34-8-8-20-4-28-8-12 8-24 4-32 10-14 2-28 16-38 30z"/>
+  <path d="M90 24c-4 8 0 12 6 12M160 22c6 6 4 12-2 14" stroke="#231f3a" stroke-width="6" stroke-linecap="round" fill="none"/>
+
+  <!-- glasses -->
+  <g fill="#fff" fill-opacity=".18" stroke="#c4cad4" stroke-width="3.5" stroke-linejoin="round">
+    <rect x="84" y="78" width="40" height="34" rx="13"/>
+    <rect x="136" y="78" width="40" height="34" rx="13"/>
+  </g>
+  <path d="M124 92q6-5 12 0M84 90l-13-3M176 90l13-3" stroke="#c4cad4" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+
+  <!-- eyes and smile -->
+  <circle cx="104" cy="95" r="6" fill="#1a1a1a"/>
+  <circle cx="156" cy="95" r="6" fill="#1a1a1a"/>
+  <circle cx="106" cy="93" r="2" fill="#fff"/>
+  <circle cx="158" cy="93" r="2" fill="#fff"/>
+  <path d="M100 116q30 28 60 0z" fill="#fff" stroke="#6b2f22" stroke-width="4" stroke-linejoin="round"/>
+</svg>
