@@ -566,3 +566,46 @@ footer p { margin: 0; max-width: none; }
 .brandrow .chips { margin-bottom: .9rem; }
 .brand-logo { flex: none; width: 128px; height: 128px; background: #000; border: 3px solid var(--line); border-radius: 24px; box-shadow: 5px 5px 0 var(--line); }
 .brand-logo.sm { width: 88px; height: 88px; border-radius: 18px; box-shadow: 4px 4px 0 var(--line); }
+
+/* swipeable gallery */
+.carousel { min-width: 0; max-width: 100%; }
+.track {
+  position: relative;
+  display: flex;
+  gap: 20px;
+  margin: 0;
+  padding: 6px 6px 18px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-padding-inline: 6px;
+  overscroll-behavior-x: contain;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+  cursor: grab;
+}
+.track::-webkit-scrollbar { display: none; }
+.track.drag { scroll-snap-type: none; cursor: grabbing; }
+.slide { flex: 0 0 min(78%, 340px); margin: 0; scroll-snap-align: start; }
+.slide img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+  background: var(--sand);
+  border: 3px solid var(--line);
+  border-radius: 16px;
+  box-shadow: 5px 5px 0 var(--line);
+  user-select: none;
+  -webkit-user-drag: none;
+}
+.car-ui { display: flex; align-items: center; gap: 16px; margin-top: 4px; }
+.car-count { font: 400 .9rem/1.4 var(--font-mono); color: var(--muted); }
+.mosaic.gal { display: block; padding: 24px 20px 20px; }
+.carousel.compact .slide { flex-basis: min(72%, 300px); }
+
+@media (min-width: 900px) {
+  .mosaic.gal { padding: 36px 28px 28px; align-content: normal; }
+}
+
+.dsec .slide { flex-basis: min(78%, 420px); }

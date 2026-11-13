@@ -15,6 +15,7 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&family=JetBrains+Mono:wght@400;700&display=swap">
   <link rel="stylesheet" href="styles.css">
   <script src="main.js" defer></script>
+  <script src="gallery.js" defer></script>
 </head>
 <body>
   <a class="skip" href="#main">Skip to content</a>
@@ -136,9 +137,9 @@
         </li>
 
         <li class="card proj">
-          <p class="chip"><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false"><path fill="currentColor" d="M4 4h16v6H4zm0 10h16v6H4zM7 6.5v1.5h2V6.5zm0 10v1.5h2v-1.5z"/></svg>Not live now · demo</p>
+          <p class="chip"><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false"><path fill="currentColor" d="M4 4h16v6H4zm0 10h16v6H4zM7 6.5v1.5h2V6.5zm0 10v1.5h2v-1.5z"/></svg>Self-hosted · demo</p>
           <h3>OpenClaw Local</h3>
-          <p>A self-hosted AI assistant stack I ran at home. One FastAPI hub served chat, finance, nutrition, a calendar and a system and GPU monitor, behind Traefik with HTTPS. I tried it on a local Qwen model through llama.cpp on my RTX 4070, and it can also route to hosted models when a task needs more.</p>
+          <p>A self-hosted AI assistant stack for my home lab. One FastAPI hub serves chat, finance, nutrition, a calendar and a system and GPU monitor, behind Traefik with HTTPS. I tried it on a local Qwen model through llama.cpp on my RTX 4070, and it can also route to hosted models when a task needs more.</p>
           <ul class="tags" aria-label="Built with">
             <li>FastAPI</li><li>Docker Compose</li><li>Traefik</li><li>SQLite</li><li>llama.cpp</li><li>Qwen</li>
           </ul>
@@ -152,7 +153,7 @@
         <li class="card proj">
           <p class="chip"><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false"><path fill="currentColor" d="M17 9V7a5 5 0 0 0-10 0v2H5v13h14V9h-2zm-8-2a3 3 0 0 1 6 0v2H9V7z"/></svg>Private repository · demo</p>
           <h3>Frostbite financial tracker</h3>
-          <p>A personal finance tracker for accounts, categories, income, expenses and transfers, with a Node and SQLite backend served over hardened HTTPS. It's offline now and the repository is private, so there is a demo copy with sample data instead of a code link.</p>
+          <p>A personal finance tracker for accounts, categories, income, expenses and transfers, with a Node and SQLite backend served over hardened HTTPS. The repository is private, so there is a demo copy with sample data instead of a code link.</p>
           <ul class="tags" aria-label="Built with">
             <li>Node.js</li><li>Express</li><li>SQLite</li><li>HTTPS</li>
           </ul>
@@ -181,11 +182,24 @@
           <a class="key key-white" href="https://www.facebook.com/buildsbypj" rel="noopener">See the Facebook page</a>
         </p>
       </div>
-      <div class="mosaic">
-          <img src="assets/builds/white-case-rgb.jpg" width="590" height="590" loading="lazy" alt="A white PC case with a mesh front and three glowing RGB fans, photographed from a low angle.">
-          <img src="assets/builds/black-case-green.jpg" width="590" height="590" loading="lazy" alt="A black PC tower with a mesh front and three green glowing fans.">
-          <img src="assets/builds/side-view-msi.jpg" width="590" height="590" loading="lazy" alt="The side of a finished PC through a glass panel, showing a graphics card, a CPU cooler and green lit fans.">
-          <img src="assets/builds/white-build-cyan.jpg" width="590" height="590" loading="lazy" alt="A white PC with a glass side panel and cyan lighting inside.">
+      <div class="mosaic gal">
+        <div class="carousel compact" role="region" aria-roledescription="carousel" aria-label="Photos of PCs I've built">
+          <ul class="track" tabindex="0" aria-label="Swipe or scroll sideways to see more">
+          <li class="slide" role="group" aria-roledescription="slide" aria-label="1 of 8"><img src="assets/builds/white-case-rgb.jpg" width="590" height="590" draggable="false" alt="A white PC case with a mesh front and three glowing RGB fans, photographed from a low angle."></li>
+          <li class="slide" role="group" aria-roledescription="slide" aria-label="2 of 8"><img src="assets/builds/black-case-green.jpg" width="590" height="590" draggable="false" loading="lazy" alt="A black PC tower with a mesh front and three green glowing fans."></li>
+          <li class="slide" role="group" aria-roledescription="slide" aria-label="3 of 8"><img src="assets/builds/side-view-msi.jpg" width="590" height="590" draggable="false" loading="lazy" alt="The side of a finished PC through a glass panel, showing a graphics card, a CPU cooler and green lit fans."></li>
+          <li class="slide" role="group" aria-roledescription="slide" aria-label="4 of 8"><img src="assets/builds/white-build-cyan.jpg" width="590" height="590" draggable="false" loading="lazy" alt="A white PC with a glass side panel and cyan lighting inside."></li>
+          <li class="slide" role="group" aria-roledescription="slide" aria-label="5 of 8"><img src="assets/builds/pink-tower.jpg" width="590" height="590" draggable="false" loading="lazy" alt="A black and white tower with magenta lit fans seen through the glass panel."></li>
+          <li class="slide" role="group" aria-roledescription="slide" aria-label="6 of 8"><img src="assets/builds/purple-liquid-cooler.jpg" width="590" height="590" draggable="false" loading="lazy" alt="A close-up of a liquid cooler and purple lighting inside a PC."></li>
+          <li class="slide" role="group" aria-roledescription="slide" aria-label="7 of 8"><img src="assets/builds/red-glow.jpg" width="590" height="590" draggable="false" loading="lazy" alt="The inside of a white PC lit red, with a graphics card and red fans."></li>
+          <li class="slide" role="group" aria-roledescription="slide" aria-label="8 of 8"><img src="assets/builds/blue-fans-closeup.jpg" width="590" height="590" draggable="false" loading="lazy" alt="A close-up of blue lit fans and a graphics card inside a PC."></li>
+          </ul>
+          <div class="car-ui">
+            <button class="key key-white sm" type="button" data-car="-1">&lsaquo; Previous</button>
+            <span class="car-count" aria-live="polite">1 of 8</span>
+            <button class="key key-white sm" type="button" data-car="1">Next &rsaquo;</button>
+          </div>
+        </div>
       </div>
     </section>
 

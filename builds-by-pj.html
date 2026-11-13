@@ -14,6 +14,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&family=JetBrains+Mono:wght@400;700&display=swap">
   <link rel="stylesheet" href="/styles.css">
+  <script src="/gallery.js" defer></script>
 </head>
 <body>
   <a class="skip" href="#main">Skip to content</a>
@@ -59,28 +60,35 @@
 
     <section class="dsec" aria-labelledby="gal-h">
       <h2 id="gal-h">Some of my builds</h2>
-      <ul class="gallery">
-        <li><img src="/assets/builds/white-case-rgb.jpg" width="590" height="590" loading="lazy" alt="A white PC case with a mesh front and three glowing RGB fans, photographed from a low angle."></li>
-        <li><img src="/assets/builds/black-case-green.jpg" width="590" height="590" loading="lazy" alt="A black PC tower with a mesh front and three green glowing fans."></li>
-        <li><img src="/assets/builds/side-view-msi.jpg" width="590" height="590" loading="lazy" alt="The side of a finished PC through a glass panel, showing a graphics card, a CPU cooler and green lit fans."></li>
-        <li><img src="/assets/builds/white-build-cyan.jpg" width="590" height="590" loading="lazy" alt="A white PC with a glass side panel and cyan lighting inside."></li>
-        <li><img src="/assets/builds/pink-tower.jpg" width="590" height="590" loading="lazy" alt="A black and white tower with magenta lit fans seen through the glass panel."></li>
-        <li><img src="/assets/builds/purple-liquid-cooler.jpg" width="590" height="590" loading="lazy" alt="A close-up of a liquid cooler and purple lighting inside a PC."></li>
-        <li><img src="/assets/builds/red-glow.jpg" width="590" height="590" loading="lazy" alt="The inside of a white PC lit red, with a graphics card and red fans."></li>
-        <li><img src="/assets/builds/blue-fans-closeup.jpg" width="590" height="590" loading="lazy" alt="A close-up of blue lit fans and a graphics card inside a PC."></li>
-      </ul>
+      <div class="carousel" role="region" aria-roledescription="carousel" aria-label="Photos of PCs I've built">
+        <ul class="track" tabindex="0" aria-label="Swipe or scroll sideways to see more">
+          <li class="slide" role="group" aria-roledescription="slide" aria-label="1 of 8"><img src="/assets/builds/white-case-rgb.jpg" width="590" height="590" alt="A white PC case with a mesh front and three glowing RGB fans, photographed from a low angle."></li>
+          <li class="slide" role="group" aria-roledescription="slide" aria-label="2 of 8"><img src="/assets/builds/black-case-green.jpg" width="590" height="590" loading="lazy" alt="A black PC tower with a mesh front and three green glowing fans."></li>
+          <li class="slide" role="group" aria-roledescription="slide" aria-label="3 of 8"><img src="/assets/builds/side-view-msi.jpg" width="590" height="590" loading="lazy" alt="The side of a finished PC through a glass panel, showing a graphics card, a CPU cooler and green lit fans."></li>
+          <li class="slide" role="group" aria-roledescription="slide" aria-label="4 of 8"><img src="/assets/builds/white-build-cyan.jpg" width="590" height="590" loading="lazy" alt="A white PC with a glass side panel and cyan lighting inside."></li>
+          <li class="slide" role="group" aria-roledescription="slide" aria-label="5 of 8"><img src="/assets/builds/pink-tower.jpg" width="590" height="590" loading="lazy" alt="A black and white tower with magenta lit fans seen through the glass panel."></li>
+          <li class="slide" role="group" aria-roledescription="slide" aria-label="6 of 8"><img src="/assets/builds/purple-liquid-cooler.jpg" width="590" height="590" loading="lazy" alt="A close-up of a liquid cooler and purple lighting inside a PC."></li>
+          <li class="slide" role="group" aria-roledescription="slide" aria-label="7 of 8"><img src="/assets/builds/red-glow.jpg" width="590" height="590" loading="lazy" alt="The inside of a white PC lit red, with a graphics card and red fans."></li>
+          <li class="slide" role="group" aria-roledescription="slide" aria-label="8 of 8"><img src="/assets/builds/blue-fans-closeup.jpg" width="590" height="590" loading="lazy" alt="A close-up of blue lit fans and a graphics card inside a PC."></li>
+        </ul>
+        <div class="car-ui">
+          <button class="key key-white sm" type="button" data-car="-1">&lsaquo; Previous</button>
+          <span class="car-count" aria-live="polite">1 of 8</span>
+          <button class="key key-white sm" type="button" data-car="1">Next &rsaquo;</button>
+        </div>
+      </div>
     </section>
 
     <section class="dsec" aria-labelledby="rec-h">
       <h2 id="rec-h">Builds I've shared</h2>
       <p>A few of the builds I've posted on the page, with their main parts.</p>
       <ul class="builds-list">
-        <li><b>Budget build with a white case</b><span>Intel i3 10100F, RX 560 4 GB, white Tecware Omni M with a glass side panel. Oct 2023</span></li>
-        <li><b>Custom build</b><span>Ryzen 5 3500, GTX 1050 Ti. Jul 2023</span></li>
-        <li><b>All-white gaming build</b><span>Ryzen 5 3500, RX 580 8 GB. Apr 2023</span></li>
-        <li><b>Sleek white build</b><span>Ryzen 5 3500, RTX 2060. Apr 2023</span></li>
-        <li><b>Simple and elegant</b><span>Ryzen 5 5600X, RTX 3060. Feb 2023</span></li>
-        <li><b>Minimalist with a touch of RGB</b><span>Ryzen 5 3600, GTX 1060 6 GB. Nov 2022</span></li>
+        <li><b>Budget build with a white case</b><span>Intel i3 10100F, RX 560 4 GB, white Tecware Omni M with a glass side panel.</span></li>
+        <li><b>Custom build</b><span>Ryzen 5 3500, GTX 1050 Ti.</span></li>
+        <li><b>All-white gaming build</b><span>Ryzen 5 3500, RX 580 8 GB.</span></li>
+        <li><b>Sleek white build</b><span>Ryzen 5 3500, RTX 2060.</span></li>
+        <li><b>Simple and elegant</b><span>Ryzen 5 5600X, RTX 3060.</span></li>
+        <li><b>Minimalist with a touch of RGB</b><span>Ryzen 5 3600, GTX 1060 6 GB.</span></li>
       </ul>
     </section>
 
