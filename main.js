@@ -134,7 +134,7 @@ stage.addEventListener('pointermove', (e) => {
     const dx = e.clientX - startX;
     if (Math.abs(dx) > 6) moved = true;
     if (moved) turnTo(startTarget + dx * 0.7);
-  } else if (e.pointerType === 'mouse') {
+  } else if (e.pointerType === 'mouse' && !rig.classList.contains('has-sel')) {
     const r = stage.getBoundingClientRect();
     const x = (e.clientX - r.left) / r.width;
     turnTo(BASE + (x - 0.5) * 300);

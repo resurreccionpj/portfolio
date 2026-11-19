@@ -40,19 +40,9 @@
         <p class="mono">site reliability · platform engineering</p>
         <h1 id="hello">Reliable at work.<br><em>Curious at home.</em></h1>
         <p class="lead">I'm Paolo, a senior site reliability engineer at a leading global FMCG company. By day I maintain the applications and software used by more than 100 manufacturing plants around the world. After hours I run a home lab with full-stack observability and build my own projects on it.</p>
-        <p class="actions">
-          <a class="key key-red" href="https://github.com/resurreccionpj" rel="me noopener">
-            <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false"><path fill="currentColor" d="M12 .5a11.5 11.5 0 0 0-3.64 22.41c.58.1.79-.25.79-.56v-2c-3.2.7-3.87-1.36-3.87-1.36-.52-1.33-1.28-1.69-1.28-1.69-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.18 1.76 1.18 1.03 1.76 2.69 1.25 3.35.96.1-.75.4-1.25.73-1.54-2.55-.29-5.24-1.28-5.24-5.69 0-1.26.45-2.28 1.18-3.09-.12-.29-.51-1.46.11-3.05 0 0 .97-.31 3.17 1.18a11 11 0 0 1 5.77 0c2.2-1.49 3.17-1.18 3.17-1.18.62 1.59.23 2.76.11 3.05.74.81 1.18 1.83 1.18 3.09 0 4.42-2.69 5.39-5.25 5.68.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.56A11.5 11.5 0 0 0 12 .5z"/></svg>
-            See my GitHub
-          </a>
-          <a class="key key-white" href="https://www.linkedin.com/in/resupaolo/" rel="me noopener">
-            <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false"><path fill="currentColor" d="M20.45 20.45h-3.56v-5.57c0-1.33-.03-3.04-1.85-3.04-1.86 0-2.14 1.45-2.14 2.94v5.67H9.34V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.07 2.07 0 1 1 0-4.14 2.07 2.07 0 0 1 0 4.14zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0z"/></svg>
-            Connect on LinkedIn
-          </a>
-        </p>
       </div>
 
-      <div class="hero-art">
+      <div class="hero-art" id="lab">
         <div class="lab" role="group" aria-label="Interactive home lab. Move the mouse or drag to spin it, then select a rack to learn more.">
           <div class="stage" id="stage">
             <div class="rig" id="rig">
@@ -93,73 +83,69 @@
           </p>
           <div class="rack-info" aria-live="polite">
             <p class="rt" id="rack-title">My home lab</p>
-            <p id="rack-text">Move your mouse across it, or drag with a finger, to spin it. Then select a rack to see what it does.</p>
+            <p id="rack-text">Move your mouse across it or drag to spin it, then select a rack to see what it does. Spinning pauses while a rack is selected.</p>
           </div>
         </div>
       </div>
-    </section>
 
-    <section class="card term" id="lab" aria-labelledby="lab-h">
-      <div class="term-head">
-        <h2 id="lab-h">Lab status</h2>
-        <p class="mono dim">simulated output, for illustration</p>
-      </div>
-      <pre id="log" role="log" aria-live="polite" aria-label="Lab status output"><span class="dim">$ press the key to check the lab</span></pre>
-      <p class="term-foot">
-        <button class="key key-red" id="run" type="button">Check the lab</button>
-        <button class="key key-white sm" id="sound" type="button">Sound: on</button>
-        <span class="mono dim" id="state">idle</span>
-      </p>
-    </section>
-
-    <section class="stats" aria-label="At a glance">
-      <div class="card stat"><p class="big">100+</p><p>manufacturing plants rely on the software I maintain</p></div>
-      <div class="card stat"><p class="big">3</p><p>projects below, from maps to AI to money</p></div>
-      <div class="card stat"><p class="big">EN + FIL</p><p>languages in my accessibility map</p></div>
-      <div class="card stat"><p class="big">1</p><p>home lab, with full-stack observability</p></div>
+      <p class="actions">
+        <a class="key key-red" href="https://github.com/resurreccionpj" rel="me noopener">
+          <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false"><path fill="currentColor" d="M12 .5a11.5 11.5 0 0 0-3.64 22.41c.58.1.79-.25.79-.56v-2c-3.2.7-3.87-1.36-3.87-1.36-.52-1.33-1.28-1.69-1.28-1.69-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.18 1.76 1.18 1.03 1.76 2.69 1.25 3.35.96.1-.75.4-1.25.73-1.54-2.55-.29-5.24-1.28-5.24-5.69 0-1.26.45-2.28 1.18-3.09-.12-.29-.51-1.46.11-3.05 0 0 .97-.31 3.17 1.18a11 11 0 0 1 5.77 0c2.2-1.49 3.17-1.18 3.17-1.18.62 1.59.23 2.76.11 3.05.74.81 1.18 1.83 1.18 3.09 0 4.42-2.69 5.39-5.25 5.68.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.56A11.5 11.5 0 0 0 12 .5z"/></svg>
+          See my GitHub
+        </a>
+        <a class="key key-white" href="https://www.linkedin.com/in/resupaolo/" rel="me noopener">
+          <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false"><path fill="currentColor" d="M20.45 20.45h-3.56v-5.57c0-1.33-.03-3.04-1.85-3.04-1.86 0-2.14 1.45-2.14 2.94v5.67H9.34V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.07 2.07 0 1 1 0-4.14 2.07 2.07 0 0 1 0 4.14zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0z"/></svg>
+          Connect on LinkedIn
+        </a>
+        </p>
     </section>
 
     <section class="projects" id="projects" aria-labelledby="projects-h">
       <h2 id="projects-h">Projects</h2>
       <ul class="cards">
-        <li class="card proj">
-          <p class="chip chip-live"><span class="dot" aria-hidden="true"></span>Live</p>
-          <h3>Digital Accessibility Map</h3>
-          <p>An accessibility map for Brgy. Real in Calamba City, made for travelers with physical disabilities. Pins and lines show ramps, sidewalks, crossings, restrooms and entrances, each with a clear status. It works in English and Filipino, has a list view next to the map, and supports keyboards and screen readers.</p>
-          <ul class="tags" aria-label="Built with">
-            <li>Next.js</li><li>TypeScript</li><li>Leaflet</li><li>OpenStreetMap</li><li>Neon Postgres</li><li>Vercel</li>
-          </ul>
-          <p class="links">
-            <a class="key key-red" href="projects/digital-accessibility-map.html">Read the case study</a>
-            <a class="key key-white" href="https://barangay-real-access.vercel.app" rel="noopener">Open the live map</a>
-            <a class="key key-white" href="https://github.com/resurreccionpj/digital-accesibility-map" rel="noopener">View the code</a>
-          </p>
+        <li class="card proj feature">
+          <div class="proj-body">
+            <p class="chip chip-live"><span class="dot" aria-hidden="true"></span>Live</p>
+            <h3>Digital Accessibility Map</h3>
+            <p>A map of ramps, sidewalks, crossings, restrooms and entrances around Brgy. Real in Calamba City, built for travelers with physical disabilities. It works in English and Filipino, and supports keyboards and screen readers.</p>
+            <ul class="tags" aria-label="Built with">
+              <li>Next.js</li><li>TypeScript</li><li>Leaflet</li><li>Neon Postgres</li>
+            </ul>
+            <p class="links">
+              <a class="key key-red" href="https://barangay-real-access.vercel.app" rel="noopener">Open the live map</a>
+              <a class="more" href="projects/digital-accessibility-map.html">Read the case study</a>
+              <a class="more" href="https://github.com/resurreccionpj/digital-accesibility-map" rel="noopener">View the code</a>
+            </p>
+          </div>
+          <a class="proj-shot" href="https://barangay-real-access.vercel.app" rel="noopener" tabindex="-1" aria-hidden="true">
+            <img src="assets/shots/map-desktop.jpg" width="1440" height="900" loading="lazy" alt="">
+          </a>
         </li>
 
         <li class="card proj">
           <p class="chip"><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false"><path fill="currentColor" d="M4 4h16v6H4zm0 10h16v6H4zM7 6.5v1.5h2V6.5zm0 10v1.5h2v-1.5z"/></svg>Self-hosted · demo</p>
           <h3>OpenClaw Local</h3>
-          <p>A self-hosted AI assistant stack for my home lab. One FastAPI hub serves chat, finance, nutrition, a calendar and a system and GPU monitor, behind Traefik with HTTPS. I tried it on a local Qwen model through llama.cpp on my RTX 4070, and it can also route to hosted models when a task needs more.</p>
+          <p>A self-hosted AI assistant for my home lab: chat, finance, nutrition, a calendar and a GPU monitor behind Traefik. I ran it on a local Qwen model through llama.cpp on my RTX 4070.</p>
           <ul class="tags" aria-label="Built with">
-            <li>FastAPI</li><li>Docker Compose</li><li>Traefik</li><li>SQLite</li><li>llama.cpp</li><li>Qwen</li>
+            <li>FastAPI</li><li>Docker Compose</li><li>Traefik</li><li>llama.cpp</li>
           </ul>
           <p class="links">
-            <a class="key key-red" href="projects/openclaw-local.html">Read the case study</a>
-            <a class="key key-white" href="demos/openclaw/">Try the demo</a>
-            <a class="key key-white" href="https://github.com/resurreccionpj/openclaw-local" rel="noopener">View the code</a>
+            <a class="key key-red" href="demos/openclaw/">Try the demo</a>
+            <a class="more" href="projects/openclaw-local.html">Read the case study</a>
+            <a class="more" href="https://github.com/resurreccionpj/openclaw-local" rel="noopener">View the code</a>
           </p>
         </li>
 
         <li class="card proj">
           <p class="chip"><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false"><path fill="currentColor" d="M17 9V7a5 5 0 0 0-10 0v2H5v13h14V9h-2zm-8-2a3 3 0 0 1 6 0v2H9V7z"/></svg>Private repository · demo</p>
           <h3>Frostbite financial tracker</h3>
-          <p>A personal finance tracker for accounts, categories, income, expenses and transfers, with a Node and SQLite backend served over hardened HTTPS. The repository is private, so there is a demo copy with sample data instead of a code link.</p>
+          <p>A personal finance tracker for accounts, income, expenses and transfers, on a Node and SQLite backend over hardened HTTPS. The repository is private, so there is a demo with sample data.</p>
           <ul class="tags" aria-label="Built with">
             <li>Node.js</li><li>Express</li><li>SQLite</li><li>HTTPS</li>
           </ul>
           <p class="links">
-            <a class="key key-red" href="projects/frostbite.html">Read the case study</a>
-            <a class="key key-white" href="demos/frostbite/">Try the demo</a>
+            <a class="key key-red" href="demos/frostbite/">Try the demo</a>
+            <a class="more" href="projects/frostbite.html">Read the case study</a>
           </p>
         </li>
       </ul>
@@ -171,15 +157,9 @@
           <img class="brand-logo sm" src="assets/builds-by-pj-logo.png" width="1079" height="1079" alt="Builds by PJ logo: a white outlined cube on a black square.">
           <h2 id="builds-h">Builds by PJ</h2>
         </div>
-        <p class="lead">I'm also the founder and owner of Builds by PJ, a computer service provider in Metro Manila. I'm not actively looking for clients, so this is a look at what I've built so far.</p>
-        <ul class="svc">
-          <li>Custom PC building</li>
-          <li>PC repair</li>
-          <li>Laptop repair</li>
-        </ul>
+        <p class="lead">Away from software, I build PCs. I'm the founder and owner of Builds by PJ in Metro Manila. I'm not taking on clients right now, so this is simply a look at the machines I've built.</p>
         <p class="links">
           <a class="key key-red" href="builds-by-pj.html">See the builds</a>
-          <a class="key key-white" href="https://www.facebook.com/buildsbypj" rel="noopener">See the Facebook page</a>
         </p>
       </div>
       <div class="mosaic gal">
@@ -201,6 +181,19 @@
           </div>
         </div>
       </div>
+    </section>
+
+    <section class="card term" id="status" aria-labelledby="lab-h">
+      <div class="term-head">
+        <h2 id="lab-h">Lab status</h2>
+        <p class="mono dim">simulated output, for illustration</p>
+      </div>
+      <pre id="log" role="log" aria-live="polite" aria-label="Lab status output"><span class="dim">$ press the key to check the lab</span></pre>
+      <p class="term-foot">
+        <button class="key key-red" id="run" type="button">Check the lab</button>
+        <button class="key key-white sm" id="sound" type="button">Sound: on</button>
+        <span class="mono dim" id="state">idle</span>
+      </p>
     </section>
 
     <section class="card contact" id="contact" aria-labelledby="contact-h">
